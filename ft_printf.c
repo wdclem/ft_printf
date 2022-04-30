@@ -1,7 +1,6 @@
 #include <stdarg.h>
-#include <stdio.h>
-#include <unistd.h>
 #include <string.h>
+#include "ft_printf.h"
 
 /*struct flag_interface{
 	flag_char;
@@ -14,34 +13,87 @@
 	flag_X;
 	flag_percent;
 }*/
+char	*convert(int num, int base)
+{
+	static char str[]="0123456789ABCDEF";
+	static char buffer[50];
+	char *ptr;
 
+	ptr = &buffer[49];
+	*ptr = '\0';
+
+	while(num !=0)
+	{
+		*--ptr = str[num%base];
+		num/= base;
+	}
+	return(ptr);
+}
 
 int	ft_printf(char *str, ...)
 {
-	int	i;
-	int	ret;
-	int	val;
+	int		i;
+	size_t	charnumb;
 	char	*ptr;
+	char	*s;
+
+	/*Initialize printf listuments */
 	va_list	list;
-
 	va_start(list, str);
-	val = 0;
+	charnumb = ((ft_strlen(str)) - (ft_strlen(ptr)));
+	ft_putnbr(charnumb);
 	i = 0;
-	ptr = strchr(str, (int) '%');
+	ptr = str;
 
-	while(str[i] != '\0')
+		while(*ptr != '\0')
+		{
+			while(*ptr != '%' && *ptr != '\0')
+			{
+				putchar(*ptr);
+				ptr++;
+			}
+			ptr++;
+		//Module 2: Fetching and executing listuments
+	switch (*ptr)
 	{
-		if(str[i] != '%')
-			putchar(str[i]);
-		i++;
+		case 'c': i = va_arg(list, int); //Fetch char argument
+		{
+			ft_putchar(i);
+			break;
+		}
+		case 'd': i = va_arg(list, int); //Fetch Decimal/Integer argument
+		if (i < 0)
+		{
+			i = -i;
+			putchar('-');
+		}
+		ft_putstr(convert(i, 10));
+		break;
+
+		case 'o': i = va_arg(list, int); //Fetch Octal representation
+			ft_putstr(convert(i, 8));
+		break;
+
+		case 's': s = va_arg(list, char*); //Fetch string
+			ft_putstr(s);
+		break;
+
+		case 'x': i = va_arg(list, int); //Fetch Hexadecimal representation
+			puts(convert(i, 16));
+		break;
 	}
-	return (0);
+	}
+
+//Module 3: Closing listument list to necessary clean-up
+// Module 3.1: Output the generated string.
+	va_end(list);
+	return(0);
 }
 
 
 	/*while(j < str)
 	{
-		val += va_arg(ap, int);
+		val += va_list(ap, int);
 		j++;
 	}
 	va_end(ap);
@@ -60,7 +112,8 @@ int	ft_printf(char *str, ...)
 
 int main()
 {
-	ft_printf("On dit quoi ? %s\n", "salut");
+	char salut[] = "salut";
+	ft_printf("On dit quoi ? %s\n", salut);
 
 	return (0);
 }

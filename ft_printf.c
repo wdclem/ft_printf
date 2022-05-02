@@ -40,21 +40,34 @@ int	ft_printf(char *str, ...)
 	/*Initialize printf listuments */
 	va_list	list;
 	va_start(list, str);
-	charnumb = ((ft_strlen(str)) - (ft_strlen(ptr)));
-	ft_putnbr(charnumb);
 	i = 0;
 	ptr = str;
 
 		while(*ptr != '\0')
 		{
-			while(*ptr != '%' && *ptr != '\0')
+			if(*ptr == '%')
+			{
+				i += check_format(&str, &ptr, &list);
+				/*s = va_arg(list, char*);
+				ft_putstr(s);
+				i += ft_strlen(s);
+				*ptr++;
+				*ptr++;
+			}
+			else
+			{
+				ft_putchar(*ptr);
+				*ptr++;
+				i++;
+			}*/
+			/*while(*ptr != '%' && *ptr != '\0')
 			{
 				putchar(*ptr);
 				ptr++;
 			}
-			ptr++;
+			ptr++;*/
 		//Module 2: Fetching and executing listuments
-	switch (*ptr)
+/*	switch (*ptr)
 	{
 		case 'c': i = va_arg(list, int); //Fetch char argument
 		{
@@ -76,18 +89,20 @@ int	ft_printf(char *str, ...)
 
 		case 's': s = va_arg(list, char*); //Fetch string
 			ft_putstr(s);
+			charnumb = ft_strlen(s);
+			ft_putnbr(charnumb);
 		break;
 
 		case 'x': i = va_arg(list, int); //Fetch Hexadecimal representation
 			puts(convert(i, 16));
 		break;
-	}
+	}*/
 	}
 
 //Module 3: Closing listument list to necessary clean-up
 // Module 3.1: Output the generated string.
 	va_end(list);
-	return(0);
+	return(i);
 }
 
 
@@ -112,8 +127,7 @@ int	ft_printf(char *str, ...)
 
 int main()
 {
-	char salut[] = "salut";
-	ft_printf("On dit quoi ? %s\n", salut);
-
+	char salut[] = "world";
+	printf("%d", ft_printf("Hello %s\n", salut));
 	return (0);
 }

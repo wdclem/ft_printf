@@ -7,6 +7,9 @@
 # include <unistd.h>
 # include <stdio.h> // TO REMOVE, REMOVE ME IDIOT, REMOVE ME//
 
+# define CONV "cspdiouxX%"
+# define LENGTH "0lLhjzt"
+	
 int		ft_printf(char *str, ...);
 
 #endif

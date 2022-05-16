@@ -9,7 +9,11 @@
 
 # define CONV "cspdiouxX%"
 # define LENGTH "0lLhjzt"
-	
+
 int		ft_printf(char *str, ...);
+void	ft_putunsigned(unsigned int nb);
+void	ft_putoctal(unsigned int nb);
+void	ft_puthexa(unsigned int nb);
+void	ft_putupperhexa(unsigned int nb);
 
 #endif

@@ -6,6 +6,13 @@
 typedef	int	conv(va_list *list);
 //typedef	int	conv(va_list *list);
 
+typedef struct s_info {
+		char	flag;
+		int		width;
+		int		precision;
+		int		size;
+}		t_info;
+
 static int	print_unsigned(va_list *list)
 {
 	ft_putunsigned(va_arg(*list, unsigned int));
@@ -87,12 +94,45 @@ static void		initialize_type(conv **type)
 //	type[9] = &print_float;
 	type[10] = &print_percentage;
 }
-void	change_size(va_list *list)
+
+int	check_flag(char *ptr)
+{
+	int	i;
+	
+	i = 0;
+	flag =0;
+	while (*ptr &&ft_strchr("#0-+", ptr[i]))
+			{
+				t_info[flag] = ptr[i];
+				i++;
+			}
+	printf("flag = %d\n", flag);
+	return(i);
+}
+
+int	check_precision(char *ptr)
+{
+	int	precision;
+	int	no_precision;
+	int	star;
+
+	if(*(ptr + 1) != '.')
+		return (0);
+	ptr++;
+	if(isdigit(&ptr + 1))
+		precision = ft_atoi(&ptr + 1) ;
+	printf("precision = %d\n",precision);
+	return(0);
+}
+
+
+/*void	change_size(va_list *list)
 {
 	if(*(ptr + 1) == 'l' || *(ptr + 1) == 'L')
 		va
 	if(*(ptr + 1) == 'll')
 	if(*(ptr + 1) == 'h' || *(ptr + 1) == 'hh')
+}*/
 
 int	check_percentage(char *ptr, va_list *list)
 {
@@ -102,18 +142,22 @@ int	check_percentage(char *ptr, va_list *list)
 	int		ret;
 	copy = ptr;
 	conv	*flags[5];
-	char	type; //to hold the conv type
+	//char	hold; //to hold the conv type
 	//%[flags][width][.precision][size]type
 
 	initialize_flags(flags);
 	initialize_type(type);
-	initialize_size(size);
-
-	if(*ptr && ft_strchr("cspdiouxXf%", *str)
+//	initialize_size(size);
+	printf("apres initialize type%s\n", ptr);
+	check_flag(ptr);
+	printf("apres check flag%s\n", ptr);
+	check_precision(ptr);
+/*	if(*ptr && ft_strchr("cspdiouxXf%", *str)
 			type == *(ptr + 1);
 	
-	if(*(ptr + 1) == 'l' || *(ptr + 1) == 'll' || *(ptr + 1) == 'h' || *(ptr + 1) == 'hh'
+	if(*(ptr) == 'l' || *(ptr + 1) == 'll' || *(ptr + 1) == 'h' || *(ptr + 1) == 'hh'
 			|| *(ptr + 1) == 'L'
+*/
 	if(*(ptr + 1) == 'c')
 		select = 0;
 	else if (*(ptr + 1) == 's')
@@ -148,6 +192,7 @@ int	ft_printf(char *str, ...)
 	int		ret;
 	char	*ptr;
 	char	*s;
+	t_info	info;
 
 	/*Initialize printf listuments */
 	va_list	list;
@@ -162,7 +207,11 @@ int	ft_printf(char *str, ...)
 				//write(1, str, (ptr - str));
 				//write(1, ptr + 1, 1);
 				str = ptr + 1;
+				printf("dans ft_printf %s\n", ptr);
 				ret = check_percentage(ptr, &list);
+				// ptr = "Hello %world"
+				// ptr *ptr &ptr
+				// *ptr is the same as ptr[7]
 				/*s = va_arg(list, char*);
 				ft_putstr(s);
 				i += ft_strlen(s);
@@ -172,6 +221,7 @@ int	ft_printf(char *str, ...)
 			else
 			{
 				write(1, ptr, 1);
+				printf("\n");
 				ptr++;
 			}
 		}
@@ -184,6 +234,16 @@ int main()
 {
 	char salut[] = "world";
 	//ft_printf("Hello HEXA %X\n", 500);
+	ft_printf("(pf)Hello %d.3\n", 10000);
+	printf("(pf)Hello %d\n", 2147483647);
+	printf("(pf)Hello %d.0\n", 2147483647);
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
 	ft_printf("Hello string %s\n", salut);
 	printf("(pf)Hello %s\n", salut);
 	ft_printf("Hello digit %d\n", 2147483647);

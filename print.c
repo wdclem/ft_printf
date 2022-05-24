@@ -1,5 +1,6 @@
 #include <stdarg.h>
 #include <string.h>
+#include <ctype.h>
 #include "ft_printf.h"
 
 //typedef	int	*(*conv)();
@@ -12,6 +13,23 @@ typedef struct s_info {
 		int		precision;
 		int		size;
 }		t_info;
+
+char	*convert(int num, int base)
+{
+	static char str[]="0123456789ABCDEF";
+	static char buffer[50];
+	char *ptr;
+
+	ptr = &buffer[49];
+	*ptr = '\0';
+
+	while(num !=0)
+	{
+		*--ptr = str[num%base];
+		num/= base;
+	}
+	return(ptr);
+}
 
 static int	print_unsigned(va_list *list)
 {
@@ -38,7 +56,15 @@ static int	print_octal(va_list *list)
 }
 static int	print_int(va_list *list)
 {
-	ft_putnbr(va_arg(*list, int));
+	int	i;
+
+	i = va_arg(*list, int);
+	if (i < 0)
+	{
+		i = -i;
+		putchar('-');
+	}
+	ft_putstr(convert(i, 10));
 	return(1);
 }
 
@@ -95,22 +121,51 @@ static void		initialize_type(conv **type)
 	type[10] = &print_percentage;
 }
 
-int	check_flag(char *ptr)
+int	check_flag(char *ptr, t_info *info)
 {
 	int	i;
-	
+	int	flag;
 	i = 0;
-	flag =0;
+	flag = 0;
 	while (*ptr &&ft_strchr("#0-+", ptr[i]))
 			{
-				t_info[flag] = ptr[i];
+				info->flag = ptr[i];
 				i++;
 			}
 	printf("flag = %d\n", flag);
 	return(i);
 }
 
-int	check_precision(char *ptr)
+int	check_width(char *ptr, t_info *info, va_list *list)
+{
+	int	nb;
+
+	while (ft_isspace(*ptr))
+		ptr++;
+	if (*ptr == '*')
+	{
+		nb = va_arg(*list, int);
+		if (nb < 0)
+		{
+			nb *= -1;
+			info->flag = -1;
+		}
+		info->width = nb;
+		ptr++;
+	}
+	if (*ptr >= '0' && *ptr <= '9')
+	{
+		nb = 0;
+		while (*ptr >= '0' && *ptr <= '9')
+		{
+			nb = nb * 10 + (*ptr - '0');
+			ptr++;
+		}
+		info->width = nb;
+	}
+}
+
+int	check_precision(char *ptr, t_info *info, va_list *list)
 {
 	int	precision;
 	int	no_precision;
@@ -125,6 +180,18 @@ int	check_precision(char *ptr)
 	return(0);
 }
 
+int	check_size(char *ptr, t_info *info, va_list *list)
+{
+	int	i;
+
+	i = 0;
+	while (*ptr && ft_strchr("Llh", ptr[i]))
+	{
+		info->size = ptr[i];
+		i++;
+	}
+	return (i);
+}
 
 /*void	change_size(va_list *list)
 {
@@ -134,7 +201,7 @@ int	check_precision(char *ptr)
 	if(*(ptr + 1) == 'h' || *(ptr + 1) == 'hh')
 }*/
 
-int	check_percentage(char *ptr, va_list *list)
+int	check_percentage(char *ptr, va_list *list, t_info *info)
 {
 	char	*copy;
 	conv	*type[11];
@@ -148,10 +215,13 @@ int	check_percentage(char *ptr, va_list *list)
 	initialize_flags(flags);
 	initialize_type(type);
 //	initialize_size(size);
-	printf("apres initialize type%s\n", ptr);
-	check_flag(ptr);
-	printf("apres check flag%s\n", ptr);
-	check_precision(ptr);
+	//printf("apres initialize type%s\n", ptr);
+	check_flag(ptr, info);
+	check_width(ptr, info, list);
+	//printf("apres check flag%s\n", ptr);
+	//printf("check the flagito %c\n", info->flag);
+	check_precision(ptr, info, list);
+	check_size(ptr, info, list);
 /*	if(*ptr && ft_strchr("cspdiouxXf%", *str)
 			type == *(ptr + 1);
 	
@@ -167,7 +237,7 @@ int	check_percentage(char *ptr, va_list *list)
 	else if(*(ptr + 1) == 'o')
 		select = 5;
 	else if(*(ptr + 1) == 'u')
-		select = 6;
+		select = 6; 
 	else if(*(ptr + 1) == 'x')
 		select = 7;
 	else if(*(ptr + 1) == 'X')
@@ -207,8 +277,8 @@ int	ft_printf(char *str, ...)
 				//write(1, str, (ptr - str));
 				//write(1, ptr + 1, 1);
 				str = ptr + 1;
-				printf("dans ft_printf %s\n", ptr);
-				ret = check_percentage(ptr, &list);
+				//printf("dans ft_printf %s\n", ptr);
+				ret = check_percentage(ptr, &list, &info);
 				// ptr = "Hello %world"
 				// ptr *ptr &ptr
 				// *ptr is the same as ptr[7]
@@ -221,7 +291,7 @@ int	ft_printf(char *str, ...)
 			else
 			{
 				write(1, ptr, 1);
-				printf("\n");
+				//printf("\n");
 				ptr++;
 			}
 		}

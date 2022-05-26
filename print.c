@@ -8,7 +8,8 @@ typedef	int	conv(va_list *list);
 //typedef	int	conv(va_list *list);
 
 typedef struct s_info {
-		char	flag;
+		char	flag[4];
+		char	type;
 		int		width;
 		int		precision;
 		int		size;
@@ -121,76 +122,88 @@ static void		initialize_type(conv **type)
 	type[10] = &print_percentage;
 }
 
-int	check_flag(char *ptr, t_info *info)
+int	check_flag(char **ptr, t_info *info)
 {
 	int	i;
-	int	flag;
+	++*ptr;
 	i = 0;
-	flag = 0;
-	while (*ptr &&ft_strchr("#0-+", ptr[i]))
+	while (**ptr && ft_strchr("#0-+", (*ptr)[i]))
 			{
-				info->flag = ptr[i];
+				info->flag[i] = *ptr[i];
 				i++;
 			}
-	printf("flag = %d\n", flag);
+	//printf("flag = %d\n", flag);
 	return(i);
 }
 
-int	check_width(char *ptr, t_info *info, va_list *list)
+int	check_width(char **ptr, t_info *info, va_list *list)
 {
 	int	nb;
 
-	while (ft_isspace(*ptr))
+	while (ft_isspace(**ptr))
 		ptr++;
-	if (*ptr == '*')
+	if (**ptr == '*')
 	{
 		nb = va_arg(*list, int);
 		if (nb < 0)
 		{
 			nb *= -1;
-			info->flag = -1;
+			info->width = -1;
 		}
 		info->width = nb;
 		ptr++;
 	}
-	if (*ptr >= '0' && *ptr <= '9')
+	if (**ptr >= '0' && **ptr <= '9')
 	{
 		nb = 0;
-		while (*ptr >= '0' && *ptr <= '9')
+		while (**ptr >= '0' && **ptr <= '9')
 		{
-			nb = nb * 10 + (*ptr - '0');
+			nb = nb * 10 + (**ptr - '0');
 			ptr++;
 		}
 		info->width = nb;
 	}
+	return(1);
 }
 
-int	check_precision(char *ptr, t_info *info, va_list *list)
+int	check_precision(char **ptr, t_info *info, va_list *list)
 {
 	int	precision;
 	int	no_precision;
 	int	star;
 
-	if(*(ptr + 1) != '.')
-		return (0);
-	ptr++;
-	if(isdigit(&ptr + 1))
-		precision = ft_atoi(&ptr + 1) ;
+	if (**ptr != '.')
+		return(0);
+	++*ptr;
+	if(isdigit(**ptr))
+		precision = ft_atoi(*ptr) ;
 	printf("precision = %d\n",precision);
 	return(0);
 }
 
-int	check_size(char *ptr, t_info *info, va_list *list)
+int	check_size(char **ptr, t_info *info, va_list *list)
 {
 	int	i;
 
 	i = 0;
-	while (*ptr && ft_strchr("Llh", ptr[i]))
+	while (**ptr && ft_strchr("Llh", *ptr[i]))
 	{
-		info->size = ptr[i];
+		info->size = *ptr[i];
 		i++;
 	}
 	return (i);
+}
+
+int	check_conv(char **ptr, t_info *info, va_list *list)
+{
+	int	i;
+
+	i = 0;
+	if(**ptr && ft_strchr("cspdiouxXf%", *ptr[i]))
+		info->type = *ptr[i];
+	else
+		return(0); // return error if no type precise ?
+	return(1);
 }
 
 /*void	change_size(va_list *list)
@@ -201,48 +214,46 @@ int	check_size(char *ptr, t_info *info, va_list *list)
 	if(*(ptr + 1) == 'h' || *(ptr + 1) == 'hh')
 }*/
 
-int	check_percentage(char *ptr, va_list *list, t_info *info)
+int	check_percentage(char **ptr, va_list *list, t_info *info)
 {
 	char	*copy;
 	conv	*type[11];
 	int		select;
 	int		ret;
-	copy = ptr;
-	conv	*flags[5];
+	copy = *ptr;
 	//char	hold; //to hold the conv type
 	//%[flags][width][.precision][size]type
 
-	initialize_flags(flags);
+	//initialize_flags(flags);
 	initialize_type(type);
 //	initialize_size(size);
 	//printf("apres initialize type%s\n", ptr);
-	check_flag(ptr, info);
+	*ptr += check_flag(ptr, info);
 	check_width(ptr, info, list);
 	//printf("apres check flag%s\n", ptr);
 	//printf("check the flagito %c\n", info->flag);
 	check_precision(ptr, info, list);
 	check_size(ptr, info, list);
+	check_conv(ptr, info, list);
 /*	if(*ptr && ft_strchr("cspdiouxXf%", *str)
 			type == *(ptr + 1);
 	
 	if(*(ptr) == 'l' || *(ptr + 1) == 'll' || *(ptr + 1) == 'h' || *(ptr + 1) == 'hh'
 			|| *(ptr + 1) == 'L'
 */
-	if(*(ptr + 1) == 'c')
+	if(**ptr == 'c')
 		select = 0;
-	else if (*(ptr + 1) == 's')
+	else if (**ptr == 's')
 		select = 1;
-	else if(*(ptr + 1) == 'd' || *(ptr + 1) == 'i')
+	else if(**ptr == 'd' || **ptr == 'i')
 		select = 4;
-	else if(*(ptr + 1) == 'o')
-		select = 5;
-	else if(*(ptr + 1) == 'u')
+	else if(**ptr == 'u')
 		select = 6; 
-	else if(*(ptr + 1) == 'x')
+	else if(**ptr == 'x')
 		select = 7;
-	else if(*(ptr + 1) == 'X')
+	else if(**ptr == 'X')
 		select = 8;
-	else if (*(ptr + 1) == '%')
+	else if (**ptr == '%')
 		select = 10;
 	ret = (type[select])(list);
 	return(ret);
@@ -276,9 +287,9 @@ int	ft_printf(char *str, ...)
 			{
 				//write(1, str, (ptr - str));
 				//write(1, ptr + 1, 1);
-				str = ptr + 1;
+				//str = ptr + 1;
 				//printf("dans ft_printf %s\n", ptr);
-				ret = check_percentage(ptr, &list, &info);
+				ret = check_percentage(&ptr, &list, &info);
 				// ptr = "Hello %world"
 				// ptr *ptr &ptr
 				// *ptr is the same as ptr[7]
@@ -286,7 +297,7 @@ int	ft_printf(char *str, ...)
 				ft_putstr(s);
 				i += ft_strlen(s);
 				*/
-				ptr+= 2;
+				ptr+= 1;
 			}
 			else
 			{
@@ -304,8 +315,14 @@ int main()
 {
 	char salut[] = "world";
 	//ft_printf("Hello HEXA %X\n", 500);
-	ft_printf("(pf)Hello %d.3\n", 10000);
-	printf("(pf)Hello %d\n", 2147483647);
+	ft_printf("Hello %+d\n", 10000);
+	printf("(pf)Hello %+d\n", 10000);
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	ft_printf("Hello %d\n", 10001);
+	printf("(pf)Hello %d\n", 10001);
+	/*printf("(pf)Hello %d\n", 2147483647);
 	printf("(pf)Hello %d.0\n", 2147483647);
 	printf("\n");
 	printf("\n");
@@ -330,5 +347,6 @@ int main()
 	printf("(pf)Hello %%\n", 10);
 	ft_printf("hello unsigned %u\n", -1);
 	printf("(pf)hello %u\n", -1);
-;	return (0);
+	*/
+	return (0);
 }

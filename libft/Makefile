@@ -11,9 +11,14 @@
 
 NAME = libft.a
 HEAD = libft.h
-FLAG =  -Werror -Wextra -Wall
-OPTION = -c -I $(HEAD) 
-SRC = ft_putchar.c ft_putchar_fd.c ft_putstr_fd.c ft_putstr.c ft_strlen.c \
+# compile specs
+FLAGS = -Werror -Wextra -Wall
+CC = gcc
+# Directories to hold .o, .h, .c
+OBJ_DIR = ./object/
+SRC_DIR = ./srcs/
+INC_DIR = ./includes/
+SRCS = ft_putchar.c ft_putchar_fd.c ft_putstr_fd.c ft_putstr.c ft_strlen.c \
 	  ft_putnbr_fd.c ft_putnbr.c ft_putendl_fd.c ft_putendl.c \
 	  ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 	  ft_tolower.c ft_toupper.c \
@@ -31,19 +36,26 @@ SRC = ft_putchar.c ft_putchar_fd.c ft_putstr_fd.c ft_putstr.c ft_strlen.c \
 	  ft_lstadd.c ft_lstdelone.c ft_lstdel.c ft_lstiter.c ft_lstnew.c ft_lstmap.c\
 	  ft_freearray.c ft_maketab.c ft_makearray.c \
 
-OBJ = $(SRC:%.c=%.o)
-
-$(NAME):
-	@gcc $(FLAG) $(OPTION) $(SRC)
-	@ar rc $(NAME) $(OBJ)
-	@ranlib $(NAME)
+OBJ = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 
 all: $(NAME)
 
+$(NAME): $(OBJ)
+	@ar rc $(NAME) $(OBJ)
+	@echo "Lib created"
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(FLAGS) -I$(INC_DIR) -o $@ -c $^
+
 clean:
-	@/bin/rm -f $(OBJ)
+	@rm -rf $(OBJ_DIR)
+	@echo "Objects deleted"
 
 fclean: clean
-	@/bin/rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "Executable deleted"
 
 re: fclean all
+
+.PHONY: all clean fclean re

@@ -6,7 +6,7 @@
 //typedef	int	*(*conv)();
 //typedef	int	conv(va_list *list);
 
-static void		initialize_flags(conv **flags)
+/*static void		initialize_flags(conv **flags)
 {
 	flags[0] = &print_str;
 	flags[1] = NULL;
@@ -14,7 +14,8 @@ static void		initialize_flags(conv **flags)
 	flags[3] = NULL;
 	flags[4] = NULL;
 }
-
+*/
+/*
 static void	initialize_size (conv **size)
 {
 	size[0] = &print_str;
@@ -23,7 +24,7 @@ static void	initialize_size (conv **size)
 	size[3] = NULL;
 	size[4] = NULL;
 }
-
+*/
 
 static void		initialize_type(conv **type)
 {
@@ -61,15 +62,15 @@ int	check_percentage(char **ptr, va_list *list, t_info *info)
 
 	//initialize_flags(flags);
 	initialize_type(type);
-//	initialize_size(size);
+	//initialize_size(size);
 	//printf("apres initialize type%s\n", ptr);
 	*ptr += check_flag(ptr, info);
 	check_width(ptr, info, list);
 	//printf("apres check flag%s\n", ptr);
 	//printf("check the flagito %c\n", info->flag);
-	check_precision(ptr, info, list);
-	check_size(ptr, info, list);
-	check_conv(ptr, info, list);
+	check_precision(ptr, info);
+	check_size(ptr, info);
+	check_conv(ptr, info);
 /*	if(*ptr && ft_strchr("cspdiouxXf%", *str)
 			type == *(ptr + 1);
 	
@@ -90,6 +91,8 @@ int	check_percentage(char **ptr, va_list *list, t_info *info)
 		select = 8;
 	else if (**ptr == '%')
 		select = 10;
+	else
+		return(0);
 	ret = (type[select])(list);
 	return(ret);
 	//check_flag;
@@ -107,7 +110,7 @@ int	ft_printf(char *str, ...)
 	int		i;
 	int		ret;
 	char	*ptr;
-	char	*s;
+//	char	*s;
 	t_info	info;
 
 	/*Initialize printf listuments */
@@ -144,44 +147,4 @@ int	ft_printf(char *str, ...)
 	//write(1, str + 1, 1);
 	va_end(list);
 	return(i);
-}
-
-int main()
-{
-	char salut[] = "world";
-	//ft_printf("Hello HEXA %X\n", 500);
-	ft_printf("Hello %+d\n", 10000);
-	printf("(pf)Hello %+d\n", 10000);
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	ft_printf("Hello %d\n", 10001);
-	printf("(pf)Hello %d\n", 10001);
-	/*printf("(pf)Hello %d\n", 2147483647);
-	printf("(pf)Hello %d.0\n", 2147483647);
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	ft_printf("Hello string %s\n", salut);
-	printf("(pf)Hello %s\n", salut);
-	ft_printf("Hello digit %d\n", 2147483647);
-	printf("(pf)Hello %d\n", 2147483647);
-	ft_printf("Hello hexa %x\n", 99);
-	printf("(pf)Hello %x\n", 99);
-	ft_printf("Hello HEXA %X\n", 99);
-	printf("(pf)Hello %X\n", 99);
-	ft_printf("Hello octal %o\n", -500);
-	printf("(pf)Hello %o\n", -500);
-	ft_printf("Hello int %i\n", 2147483647);
-	printf("(pf)Hello %i\n", 2147483647);
-	ft_printf("Hello percent %%\n", 10);
-	printf("(pf)Hello %%\n", 10);
-	ft_printf("hello unsigned %u\n", -1);
-	printf("(pf)hello %u\n", -1);
-	*/
-	return (0);
 }

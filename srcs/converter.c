@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:13:53 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/27 14:14:21 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/05/30 13:42:23 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ char	*convert(int num, int base)
 	static char buffer[50];
 	char *ptr;
 
-	ptr = &buffer[49];
-	*ptr = '\0';
+	ptr = &buffer[50];
+	ft_bzero(ptr, sizeof(buffer));
 
 	while(num !=0)
 	{

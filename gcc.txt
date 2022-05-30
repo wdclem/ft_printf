@@ -1,0 +1,2 @@
+gcc -o main.o -c main.c -I includes/ft_printf.h
+gcc -o oui main.o -L. -lftprintf

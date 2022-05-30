@@ -6,13 +6,13 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:04:38 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/27 11:04:46 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/05/30 11:44:05 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	print_char(va_list *list)
+int	print_char(va_list *list)
 {
 	ft_putchar(va_arg(*list, int));
 	return (1);

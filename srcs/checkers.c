@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 10:42:00 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/27 10:45:35 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/05/30 13:24:57 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,23 @@ int	check_width(char **ptr, t_info *info, va_list *list)
 	return(1);
 }
 
-int	check_precision(char **ptr, t_info *info, va_list *list)
+int	check_precision(char **ptr, t_info *info)
 {
-	int	precision;
-	int	no_precision;
-	int	star;
+//	int	no_precision;
+//	int	star;
 
 	if (**ptr != '.')
 		return(0);
 	++*ptr;
 	if(isdigit(**ptr))
-		precision = ft_atoi(*ptr) ;
-	printf("precision = %d\n",precision);
+		info->precision = ft_atoi(*ptr) ;
+	else
+		return(1);
+	printf("precision = %d\n", info->precision);
 	return(0);
 }
 
-int	check_size(char **ptr, t_info *info, va_list *list)
+int	check_size(char **ptr, t_info *info)
 {
 	int	i;
 
@@ -87,7 +88,7 @@ int	check_size(char **ptr, t_info *info, va_list *list)
 	return (i);
 }
 
-int    check_conv(char **ptr, t_info *info, va_list *list)
+int    check_conv(char **ptr, t_info *info)
 {
 	int	i;
 

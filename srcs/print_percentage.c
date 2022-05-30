@@ -6,14 +6,16 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:04:06 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/27 11:04:20 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/05/30 13:33:20 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	print_percentage(va_list *list)
+int	print_percentage(va_list *list)
 {
+	if (!list)
+		return(0);
 	write(1, "%", 1);
 	return (0);
 }

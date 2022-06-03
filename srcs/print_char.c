@@ -6,14 +6,14 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:04:38 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/30 11:44:05 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/05/31 14:40:14 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	print_char(va_list *list)
+int	print_char(t_info *info)
 {
-	ft_putchar(va_arg(*list, int));
+	ft_putchar(va_arg(info->list, int));
 	return (1);
 }

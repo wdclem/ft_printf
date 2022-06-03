@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_octal.c                                      :+:      :+:    :+:   */
+/*   type_c.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/27 11:02:59 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/31 14:40:44 by ccariou          ###   ########.fr       */
+/*   Created: 2022/05/31 14:06:11 by ccariou           #+#    #+#             */
+/*   Updated: 2022/05/31 15:34:55 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
-int	print_octal(t_info *info)
+int	type_c(t_info *info)
 {
-	ft_putoctal(va_arg(info->list, unsigned int));
-	return(1);
+	info->toprint = ft_strnew(1);
+	info->toprint[0] = (char)va_arg(info->list, int);
+	return(0);
 }
+

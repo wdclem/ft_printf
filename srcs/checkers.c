@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 10:42:00 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/30 13:24:57 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/06/03 13:36:55 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,21 @@
 int	check_flag(char **ptr, t_info *info)
 {
 	int	i;
+
+	printf("flag = %s\n", "dans check flag");
 	++*ptr;
 	i = 0;
-	while (**ptr && ft_strchr("#0-+", (*ptr)[i]))
+	while (**ptr && ft_strchr("#0-+", **ptr))
 			{
-				info->flag[i] = *ptr[i];
-				i++;
+				info->flag = **ptr;
+				++*ptr;
+				printf("flag = %c\n", **ptr);
 			}
-	//printf("flag = %d\n", flag);
+	printf("flag = %c\n", info->flag);
 	return(i);
 }
 
-int	check_width(char **ptr, t_info *info, va_list *list)
+int	check_width(char **ptr, t_info *info)
 {
 	int	nb;
 
@@ -37,7 +40,7 @@ int	check_width(char **ptr, t_info *info, va_list *list)
 		ptr++;
 	if (**ptr == '*')
 	{
-		nb = va_arg(*list, int);
+		nb = va_arg(info->list, int);
 		if (nb < 0)
 		{
 			nb *= -1;

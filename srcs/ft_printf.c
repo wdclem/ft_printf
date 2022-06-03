@@ -1,7 +1,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <ctype.h>
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 //typedef	int	*(*conv)();
 //typedef	int	conv(va_list *list);
@@ -29,7 +29,8 @@ static void	initialize_size (conv **size)
 static void		initialize_type(conv **type)
 {
 	/* cspdiouxXf% */
-	type[0] = &print_char;
+	//type[0] = &print_char;
+	type[0] = &type_c;
 	type[1] = &print_str;
 //	type[2] = &print_pointer;
 	type[3] = &print_int;
@@ -50,7 +51,7 @@ static void		initialize_type(conv **type)
 	if(*(ptr + 1) == 'h' || *(ptr + 1) == 'hh')
 }*/
 
-int	check_percentage(char **ptr, va_list *list, t_info *info)
+int	check_percentage(char **ptr, t_info *info)
 {
 	char	*copy;
 	conv	*type[11];
@@ -65,7 +66,7 @@ int	check_percentage(char **ptr, va_list *list, t_info *info)
 	//initialize_size(size);
 	//printf("apres initialize type%s\n", ptr);
 	*ptr += check_flag(ptr, info);
-	check_width(ptr, info, list);
+	check_width(ptr, info);
 	//printf("apres check flag%s\n", ptr);
 	//printf("check the flagito %c\n", info->flag);
 	check_precision(ptr, info);
@@ -93,7 +94,7 @@ int	check_percentage(char **ptr, va_list *list, t_info *info)
 		select = 10;
 	else
 		return(0);
-	ret = (type[select])(list);
+	ret = (type[select])(info);
 	return(ret);
 	//check_flag;
 	//check_width
@@ -104,6 +105,22 @@ int	check_percentage(char **ptr, va_list *list, t_info *info)
 	//if (copy == 's')
 }
 
+void	set_struc(t_info *info)
+{
+	info->flag[0] = '0';
+	info->flag[1] = '0';
+	info->flag[2] = '0';
+	info->flag[3] = '0';
+	info->type = '0';
+	info->width = 0;
+	info->precision = 0;
+	info->size = 0;
+}
+
+void	print(t_info *info)
+{
+	write(1, info->toprint, ft_strlen(info->toprint));
+}
 
 int	ft_printf(char *str, ...)
 {
@@ -114,10 +131,10 @@ int	ft_printf(char *str, ...)
 	t_info	info;
 
 	/*Initialize printf listuments */
-	va_list	list;
-	va_start(list, str);
+	va_start(info.list, str);
 	i = 0;
 	ptr = str;
+	set_struc(&info);
 
 		while(*ptr != '\0')
 		{
@@ -127,7 +144,13 @@ int	ft_printf(char *str, ...)
 				//write(1, ptr + 1, 1);
 				//str = ptr + 1;
 				//printf("dans ft_printf %s\n", ptr);
-				ret = check_percentage(&ptr, &list, &info);
+				ret = check_percentage(&ptr, &info);
+				//printf("info %s\n", info.flag);
+				//printf("info %c\n", info.type);
+				//printf("info %i\n", info.width);
+				//printf("info %i\n", info.precision);
+				//printf("info %i\n", info.size);
+				print(&info);
 				// ptr = "Hello %world"
 				// ptr *ptr &ptr
 				// *ptr is the same as ptr[7]
@@ -145,6 +168,6 @@ int	ft_printf(char *str, ...)
 			}
 		}
 	//write(1, str + 1, 1);
-	va_end(list);
+	va_end(info.list);
 	return(i);
 }

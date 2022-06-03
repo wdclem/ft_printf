@@ -6,17 +6,19 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:03:17 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/30 11:44:21 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/06/03 13:51:18 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	print_int(va_list *list)
+int	print_int(t_info *info)
 {
 	int	i;
 
-	i = va_arg(*list, int);
+	if(info->flag == '+')
+		write(1, "+", 1);
+	i = va_arg(info->list, int);
 	if (i < 0)
 	{
 		i = -i;

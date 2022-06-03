@@ -12,18 +12,20 @@
 
 /* struct to hold all modifiers %[flags][width][.precision][size]type */ 
 typedef struct s_info {
-		char	flag[4];
+		va_list	list;
+		char	*toprint;
+		char	flag;
 		char	type;
 		int		width;
 		int		precision;
 		int		size;
 }		t_info;
 
-typedef	int	conv(va_list *list);
+typedef	int	conv(t_info *info);
 
 /* Check for all possible modifiers %[flags][width][.precision][size]type */
 int	check_flag(char **ptr, t_info *info);
-int	check_width(char **ptr, t_info *info, va_list *list);
+int	check_width(char **ptr, t_info *info);
 int	check_precision(char **ptr, t_info *info);
 int	check_size(char **ptr, t_info *info);
 int	check_conv(char **ptr, t_info *info);
@@ -32,16 +34,17 @@ int	check_conv(char **ptr, t_info *info);
 char	*convert(int num, int base);
 
 /* printers for each type , separated to take in considerations modifiers cspdiouxXf%*/ 
-int	print_char(va_list *list);
-int	print_str(va_list *list);
+int	type_c(t_info *info);
+int	print_char(t_info *info);
+int	print_str(t_info *info);
 //int	print_adress(va_list *list);
-int	print_int(va_list *list);
-int	print_octal(va_list *list);
-int	print_unsigned(va_list *list);
-int	print_x(va_list *list);
-int	print_X(va_list *list);
+int	print_int(t_info *info);
+int	print_octal(t_info *info);
+int	print_unsigned(t_info *info);
+int	print_x(t_info *info);
+int	print_X(t_info *info);
 //int	print_float(va_list *list);
-int	print_percentage(va_list *list);
+int	print_percentage(t_info *info);
 
 int		ft_printf(char *str, ...);
 

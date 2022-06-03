@@ -5,6 +5,8 @@ int main()
 {
 	//char salut[] = "world";
 	//ft_printf("Hello HEXA %X\n", 500);
+	//ft_printf("Hello %-c\n", 'c');
+	//printf("(pf)Hello %-c\n", 'c');
 	ft_printf("Hello %+d\n", 10000);
 	printf("(pf)Hello %+d\n", 10000);
 	printf("\n");

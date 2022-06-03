@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_octal.c                                      :+:      :+:    :+:   */
+/*   type_d.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/27 11:02:59 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/31 14:40:44 by ccariou          ###   ########.fr       */
+/*   Created: 2022/06/02 11:24:31 by ccariou           #+#    #+#             */
+/*   Updated: 2022/06/02 11:40:59 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
-int	print_octal(t_info *info)
+void	use_size(t_info *info)
 {
-	ft_putoctal(va_arg(info->list, unsigned int));
-	return(1);
+	if(info->flag == "l")
+		modify_type(info, va_arg(info->info, long), 10);
+}
+
+void	use_flag(t_info *info)
+{
+	if(info->flag == '-')
+		write
+
+int	type_d(t_info *info)
+{
+	use_size(info);
+	use_flag(info);
+	return(0);
 }

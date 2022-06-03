@@ -6,14 +6,14 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:01:30 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/30 11:45:55 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/05/31 14:41:27 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	print_x(va_list *list)
+int	print_x(t_info *info)
 {
-	ft_puthexa(va_arg(*list, int));
+	ft_puthexa(va_arg(info->list, int));
 	return(1);
 }

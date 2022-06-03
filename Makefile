@@ -23,7 +23,7 @@ SRCS = ft_printf.c\
 	  checkers.c converter.c\
 	  ft_puthexa.c ft_putoctal.c ft_putunsigned.c ft_putupperhexa.c \
 	  print_char.c print_int.c print_octal.c print_percentage.c print_str.c print_unsigned.c print_x.c print_Xcapital.c\
-	  \
+	  type_c.c\
 
 INC = -I ./includes -I ./libft/includes
 SRC = $(addprefix $(SRC_DIR), $(SRCS))

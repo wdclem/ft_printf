@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 10:42:00 by ccariou           #+#    #+#             */
-/*   Updated: 2022/06/03 13:36:55 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/07/05 10:49:10 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,15 @@ int	check_flag(char **ptr, t_info *info)
 {
 	int	i;
 
-	printf("flag = %s\n", "dans check flag");
 	++*ptr;
 	i = 0;
-	while (**ptr && ft_strchr("#0-+", **ptr))
+	while (**ptr && ft_strchr(" #0-+", **ptr))
 			{
-				info->flag = **ptr;
+				info->flag[i] = **ptr;
 				++*ptr;
-				printf("flag = %c\n", **ptr);
+				i++;
 			}
-	printf("flag = %c\n", info->flag);
+//	printf("flag = %s\n", info->flag);
 	return(i);
 }
 
@@ -50,15 +49,10 @@ int	check_width(char **ptr, t_info *info)
 		ptr++;
 	}
 	if (**ptr >= '0' && **ptr <= '9')
-	{
-		nb = 0;
-		while (**ptr >= '0' && **ptr <= '9')
 		{
-			nb = nb * 10 + (**ptr - '0');
-			ptr++;
+			info->width = ft_atoi(*ptr);
+			++*ptr;
 		}
-		info->width = nb;
-	}
 	return(1);
 }
 
@@ -71,10 +65,13 @@ int	check_precision(char **ptr, t_info *info)
 		return(0);
 	++*ptr;
 	if(isdigit(**ptr))
+	{
 		info->precision = ft_atoi(*ptr) ;
+		++*ptr;
+	}
 	else
 		return(1);
-	printf("precision = %d\n", info->precision);
+//	printf("precision = %d\n", info->precision);
 	return(0);
 }
 
@@ -83,11 +80,14 @@ int	check_size(char **ptr, t_info *info)
 	int	i;
 
 	i = 0;
-	while (**ptr && ft_strchr("Llh", *ptr[i]))
+	while (**ptr && ft_strchr("Llh", **ptr))
 	{
-		info->size = *ptr[i];
+		info->size[i] = **ptr;
+		++*ptr;
 		i++;
 	}
+	
+//	printf("size = %s\n", info->size);
 	return (i);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:04:06 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/31 14:44:49 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/07/04 10:37:29 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,5 @@ int	print_percentage(t_info *info)
 	if(!info)
 		return(0);
 	write(1, "%", 1);
-	return (0);
+	return(0);
 }

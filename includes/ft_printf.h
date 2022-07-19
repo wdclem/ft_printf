@@ -13,12 +13,16 @@
 /* struct to hold all modifiers %[flags][width][.precision][size]type */ 
 typedef struct s_info {
 		va_list	list;
-		char	*toprint;
-		char	flag;
+		char	*copy;
+		char	*mod;
+		char	*minus_mod;
+		int		copylen;
+		int		modlen;
+		char	flag[4];
 		char	type;
 		int		width;
 		int		precision;
-		int		size;
+		char	size[3];
 }		t_info;
 
 typedef	int	conv(t_info *info);
@@ -31,7 +35,8 @@ int	check_size(char **ptr, t_info *info);
 int	check_conv(char **ptr, t_info *info);
 
 /* converter modifiable base*/
-char	*convert(int num, int base);
+char	*convert(t_info *info, long long num, int base);
+void	mod_init(t_info *info);
 
 /* printers for each type , separated to take in considerations modifiers cspdiouxXf%*/ 
 int	type_c(t_info *info);

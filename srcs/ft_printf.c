@@ -65,7 +65,7 @@ int	check_percentage(char **ptr, t_info *info)
 	initialize_type(type);
 	//initialize_size(size);
 	//printf("apres initialize type%s\n", ptr);
-	*ptr += check_flag(ptr, info);
+	check_flag(ptr, info);
 	check_width(ptr, info);
 	//printf("apres check flag%s\n", ptr);
 	//printf("check the flagito %c\n", info->flag);
@@ -78,19 +78,19 @@ int	check_percentage(char **ptr, t_info *info)
 	if(*(ptr) == 'l' || *(ptr + 1) == 'll' || *(ptr + 1) == 'h' || *(ptr + 1) == 'hh'
 			|| *(ptr + 1) == 'L'
 */
-	if(**ptr == 'c')
+	if(info->type == 'c')
 		select = 0;
-	else if (**ptr == 's')
+	else if(info->type == 's')
 		select = 1;
-	else if(**ptr == 'd' || **ptr == 'i')
+	else if(info->type == 'd' || info->type == 'i')
 		select = 4;
-	else if(**ptr == 'u')
+	else if(info->type == 'u')
 		select = 6; 
-	else if(**ptr == 'x')
+	else if(info->type == 'x')
 		select = 7;
-	else if(**ptr == 'X')
+	else if(info->type == 'X')
 		select = 8;
-	else if (**ptr == '%')
+	else if(info->type == '%')
 		select = 10;
 	else
 		return(0);
@@ -107,21 +107,23 @@ int	check_percentage(char **ptr, t_info *info)
 
 void	set_struc(t_info *info)
 {
-	info->flag[0] = '0';
-	info->flag[1] = '0';
-	info->flag[2] = '0';
-	info->flag[3] = '0';
+	info->copy = NULL;
+	info->mod = NULL;
+	info->minus_mod = NULL;
+ 	info->copylen = 0;
+ 	info->modlen = 0;
+	/*info->flag*/ ft_memset(info->flag,0,sizeof(info->flag));
 	info->type = '0';
 	info->width = 0;
 	info->precision = 0;
-	info->size = 0;
+	/*info->size*/ ft_memset(info->size,0,sizeof(info->size));
 }
 
-void	print(t_info *info)
+/*void	print(t_info *info)
 {
 	write(1, info->toprint, ft_strlen(info->toprint));
 }
-
+*/
 int	ft_printf(char *str, ...)
 {
 	int		i;
@@ -135,14 +137,11 @@ int	ft_printf(char *str, ...)
 	i = 0;
 	ptr = str;
 	set_struc(&info);
-
+//	printf("flag reset= %s\n", info.flag);
 		while(*ptr != '\0')
 		{
 			if(*ptr == '%')
 			{
-				//write(1, str, (ptr - str));
-				//write(1, ptr + 1, 1);
-				//str = ptr + 1;
 				//printf("dans ft_printf %s\n", ptr);
 				ret = check_percentage(&ptr, &info);
 				//printf("info %s\n", info.flag);
@@ -150,7 +149,7 @@ int	ft_printf(char *str, ...)
 				//printf("info %i\n", info.width);
 				//printf("info %i\n", info.precision);
 				//printf("info %i\n", info.size);
-				print(&info);
+				//print(&info);
 				// ptr = "Hello %world"
 				// ptr *ptr &ptr
 				// *ptr is the same as ptr[7]

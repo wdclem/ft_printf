@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_char.c                                       :+:      :+:    :+:   */
+/*   type_percent.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/27 11:04:38 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/31 14:40:14 by ccariou          ###   ########.fr       */
+/*   Created: 2022/05/27 11:04:06 by ccariou           #+#    #+#             */
+/*   Updated: 2022/08/08 10:41:05 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	print_char(t_info *info)
+int	type_percent(t_info *info)
 {
-	ft_putchar(va_arg(info->list, int));
-	return (1);
+	info->copy = ft_strnew(1);
+	info->copy[0] = '%';
+	info->copylen = 1;
+	return(0);
 }

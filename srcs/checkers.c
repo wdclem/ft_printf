@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 10:42:00 by ccariou           #+#    #+#             */
-/*   Updated: 2022/07/05 10:49:10 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/07/22 12:34:02 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	check_size(char **ptr, t_info *info)
 		++*ptr;
 		i++;
 	}
-	
+
 //	printf("size = %s\n", info->size);
 	return (i);
 }

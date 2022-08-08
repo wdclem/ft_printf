@@ -20,10 +20,10 @@ SRC_DIR = ./srcs/
 INC_DIR = ./includes/
 
 SRCS = ft_printf.c\
-	  checkers.c converter.c\
+	  checkers.c converter.c get_info.c\
 	  ft_puthexa.c ft_putoctal.c ft_putunsigned.c ft_putupperhexa.c \
-	  print_char.c print_int.c print_octal.c print_percentage.c print_str.c print_unsigned.c print_x.c print_Xcapital.c\
-	  type_c.c\
+	  type_c.c type_int.c type_o.c type_percent.c type_s.c type_u.c type_x.c type_Xcap.c type_f.c type_p.c \
+	  \
 
 INC = -I ./includes -I ./libft/includes
 SRC = $(addprefix $(SRC_DIR), $(SRCS))

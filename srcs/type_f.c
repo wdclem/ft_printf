@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_unsigned.c                                   :+:      :+:    :+:   */
+/*   type_f.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
+/*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/27 11:01:07 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/31 14:41:43 by ccariou          ###   ########.fr       */
+/*   Created: 2022/07/22 14:53:11 by ccariou           #+#    #+#             */
+/*   Updated: 2022/08/02 13:55:45 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	print_unsigned(t_info *info)
+int	type_f(t_info *info)
 {
-	ft_putunsigned(va_arg(info->list, unsigned int));
-	return(1);
+	info->copylen = 65;
+	return (1);
 }

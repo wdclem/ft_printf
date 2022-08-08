@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_octal.c                                      :+:      :+:    :+:   */
+/*   print_pointer.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
+/*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/27 11:02:59 by ccariou           #+#    #+#             */
-/*   Updated: 2022/05/31 14:40:44 by ccariou          ###   ########.fr       */
+/*   Created: 2022/07/19 16:15:42 by ccariou           #+#    #+#             */
+/*   Updated: 2022/07/19 16:19:03 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
-int	print_octal(t_info *info)
+void	print_pointer(t_info *info)
 {
-	ft_putoctal(va_arg(info->list, unsigned int));
-	return(1);
-}
+long long	i;
+
+	i = 0;
+	i = change_size(info, i); /*make it a if */
+	convert(info, i, 8);
+	mod_init(info);
+	min_width(info);
+	print(info);
+}	

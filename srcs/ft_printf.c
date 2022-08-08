@@ -1,108 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/22 10:21:35 by ccariou           #+#    #+#             */
+/*   Updated: 2022/08/04 16:22:49 by ccariou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdarg.h>
 #include <string.h>
 #include <ctype.h>
 #include "../includes/ft_printf.h"
 
-//typedef	int	*(*conv)();
-//typedef	int	conv(va_list *list);
-
-/*static void		initialize_flags(conv **flags)
+static void	initialize_type(conv **type)
 {
-	flags[0] = &print_str;
-	flags[1] = NULL;
-	flags[2] = NULL;
-	flags[3] = NULL;
-	flags[4] = NULL;
-}
-*/
-/*
-static void	initialize_size (conv **size)
-{
-	size[0] = &print_str;
-	size[1] = NULL;
-	size[2] = NULL;
-	size[3] = NULL;
-	size[4] = NULL;
-}
-*/
-
-static void		initialize_type(conv **type)
-{
-	/* cspdiouxXf% */
-	//type[0] = &print_char;
+/* cspdiouxXf% */
 	type[0] = &type_c;
-	type[1] = &print_str;
-//	type[2] = &print_pointer;
-	type[3] = &print_int;
-	type[4] = &print_int;
-	type[5] = &print_octal;
-	type[6] = &print_unsigned;
-	type[7] = &print_x;
-	type[8] = &print_X;
-//	type[9] = &print_float;
-	type[10] = &print_percentage;
-}
-
-/*void	change_size(va_list *list)
-{
-	if(*(ptr + 1) == 'l' || *(ptr + 1) == 'L')
-		va
-	if(*(ptr + 1) == 'll')
-	if(*(ptr + 1) == 'h' || *(ptr + 1) == 'hh')
-}*/
-
-int	check_percentage(char **ptr, t_info *info)
-{
-	char	*copy;
-	conv	*type[11];
-	int		select;
-	int		ret;
-	copy = *ptr;
-	//char	hold; //to hold the conv type
-	//%[flags][width][.precision][size]type
-
-	//initialize_flags(flags);
-	initialize_type(type);
-	//initialize_size(size);
-	//printf("apres initialize type%s\n", ptr);
-	check_flag(ptr, info);
-	check_width(ptr, info);
-	//printf("apres check flag%s\n", ptr);
-	//printf("check the flagito %c\n", info->flag);
-	check_precision(ptr, info);
-	check_size(ptr, info);
-	check_conv(ptr, info);
-/*	if(*ptr && ft_strchr("cspdiouxXf%", *str)
-			type == *(ptr + 1);
-	
-	if(*(ptr) == 'l' || *(ptr + 1) == 'll' || *(ptr + 1) == 'h' || *(ptr + 1) == 'hh'
-			|| *(ptr + 1) == 'L'
-*/
-	if(info->type == 'c')
-		select = 0;
-	else if(info->type == 's')
-		select = 1;
-	else if(info->type == 'd' || info->type == 'i')
-		select = 4;
-	else if(info->type == 'u')
-		select = 6; 
-	else if(info->type == 'x')
-		select = 7;
-	else if(info->type == 'X')
-		select = 8;
-	else if(info->type == '%')
-		select = 10;
-	else
-		return(0);
-	ret = (type[select])(info);
-	return(ret);
-	//check_flag;
-	//check_width
-	//if(**copy == '.')
-	//check_preci
-	//copy++;
-	//convert using convert interface
-	//if (copy == 's')
+	type[1] = &type_str;
+	type[2] = &type_p;
+	type[3] = &type_int;
+	type[4] = &type_int;
+	type[5] = &type_o;
+	type[6] = &type_unsigned;
+	type[7] = &type_x;
+	type[8] = &type_Xcap;
+	type[9] = &type_f;
+	type[10] = &type_percent;
 }
 
 void	set_struc(t_info *info)
@@ -110,63 +36,84 @@ void	set_struc(t_info *info)
 	info->copy = NULL;
 	info->mod = NULL;
 	info->minus_mod = NULL;
- 	info->copylen = 0;
- 	info->modlen = 0;
-	/*info->flag*/ ft_memset(info->flag,0,sizeof(info->flag));
+	info->isneg = 0;
+	info->copylen = 0;
+	info->modlen = 0;
+	ft_memset (info->flag, 0, sizeof (info->flag));
 	info->type = '0';
 	info->width = 0;
 	info->precision = 0;
-	/*info->size*/ ft_memset(info->size,0,sizeof(info->size));
+	ft_memset (info->size, 0, sizeof (info->size));
 }
 
-/*void	print(t_info *info)
+void	size_mod(t_info *info)
 {
-	write(1, info->toprint, ft_strlen(info->toprint));
+	int		len;
+	char	*temp;
+	int		prefix_len;
+	int		copy_position;
+
+	prefix_len = ft_strlen(info->mod);
+	len = info->width - info->copylen;
+	if (len <= prefix_len)
+		return ;
+	temp = ft_strnew(len);
+	ft_memset(temp, ' ', len);
+	if (ft_strchr(info->flag, '-'))
+	{
+		temp[len - prefix_len] = '\0';
+		info->minus_mod = temp;
+		return ;
+	}
+	if ((info->precision == 0 || !ft_strchr("diouxX", info->type))
+		&& ft_strchr(info->flag, '0'))
+		ft_memset(temp, '0', len);
+	copy_position = (len - prefix_len) * (temp[0] != '0');
+	if (info->mod)
+		ft_strncpy(temp + copy_position, info->mod, prefix_len);
+	ft_strdel(&info->mod);
+	info->mod = temp;
 }
-*/
+
+int	check_percentage(char **ptr, t_info *info)
+{
+	conv	*type[11];
+	int		select;
+
+	select = 0;
+	set_struc(info);
+	initialize_type(type);
+	get_info(ptr, info);
+	dispatch(info, type, select);
+	size_mod(info);
+	print(info);
+	/*%[flags][width][.precision][size]type
+	*/
+	return (0);
+}
+
 int	ft_printf(char *str, ...)
 {
-	int		i;
-	int		ret;
 	char	*ptr;
-//	char	*s;
 	t_info	info;
 
 	/*Initialize printf listuments */
 	va_start(info.list, str);
-	i = 0;
 	ptr = str;
 	set_struc(&info);
-//	printf("flag reset= %s\n", info.flag);
-		while(*ptr != '\0')
+	while (*ptr != '\0')
+	{
+		if (*ptr == '%')
 		{
-			if(*ptr == '%')
-			{
-				//printf("dans ft_printf %s\n", ptr);
-				ret = check_percentage(&ptr, &info);
-				//printf("info %s\n", info.flag);
-				//printf("info %c\n", info.type);
-				//printf("info %i\n", info.width);
-				//printf("info %i\n", info.precision);
-				//printf("info %i\n", info.size);
-				//print(&info);
-				// ptr = "Hello %world"
-				// ptr *ptr &ptr
-				// *ptr is the same as ptr[7]
-				/*s = va_arg(list, char*);
-				ft_putstr(s);
-				i += ft_strlen(s);
-				*/
-				ptr+= 1;
-			}
-			else
-			{
-				write(1, ptr, 1);
-				//printf("\n");
-				ptr++;
-			}
+			check_percentage(&ptr, &info);
+			ptr += 1;
 		}
-	//write(1, str + 1, 1);
+		else
+		{
+			write(1, ptr, 1);
+			ptr++;
+		}
+	}
 	va_end(info.list);
-	return(i);
+	return (0);
 }

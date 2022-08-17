@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:13:53 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/04 13:08:52 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/12 14:37:49 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,16 @@ void	mod_init(t_info *info)
 	if (len <= 0)
 		len = 1;
 	info->mod = ft_strnew(len);
-	ft_bzero(info->mod, len);
+	ft_memset(info->mod, '0', len);
+//	ft_bzero(info->mod, len);
 	if (info->isneg == 1 && (info->type == 'd' || info->type == 'i'))
 		info->mod[0] = '-';
-	else if (ft_strchr(info->flag, '+'))
+	else if (ft_strchr(info->flag, '+') && info->type != 'u')
 		info->mod[0] = '+';
-	else if (ft_strchr(info->flag, ' '))
+	else if (ft_strchr(info->flag, ' ') && info->type != 'u')
 		info->mod[0] = ' ';
 	else
-		info->mod[0] = '\0';
+		info->mod[len - 1] = '\0';
 }
 
 char	*convert(t_info *info, unsigned long long numb, int base)
@@ -63,6 +64,8 @@ char	*convert(t_info *info, unsigned long long numb, int base)
 	info->copylen = len;
 	info->copy = ft_strnew(len);
 	ft_bzero(info->copy, len);
+	if (numb == 0)
+		info->copy[0] = '0'; 
 	while(numb !=0)
 	{
 		len--;
@@ -86,6 +89,8 @@ char	*signed_numb(t_info *info, long long numb, int base)
 	info->copylen = len;
 	info->copy = ft_strnew(len);
 	ft_bzero(info->copy, len);
+	if (numb == 0)
+		info->copy[0] = '0'; 
 	while(numb !=0)
 	{
 		len--;

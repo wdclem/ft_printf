@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   type_Xcap.c                                        :+:      :+:    :+:   */
+/*   ft_abs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/22 16:06:07 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/08 14:09:16 by ccariou          ###   ########.fr       */
+/*   Created: 2022/08/11 11:07:08 by ccariou           #+#    #+#             */
+/*   Updated: 2022/08/11 11:10:20 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	capital(char *str)
-{
-	while (*str)
-	{
-		*str = ft_toupper(*str);
-		str++;
-	}
-}
+/* return absolute value of a number */
 
-int	type_Xcap(t_info *info)
+long double	ft_abs(long double numb)
 {
-	type_x(info);
-	capital(info->copy);
-	capital(info->mod);
-/*	while(*info->copy != '\0')
-	{
-		*info->copy = ft_toupper(*info->copy);
-		info->copy++;
-	}
-	*/
-	return(0);
+	if (numb < 0)
+		return(numb *= -1);
+	else
+		return(numb);
 }

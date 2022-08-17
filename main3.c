@@ -80,7 +80,7 @@ int main()
    printf("\n Test for hash o: %#o", 42);
    ft_printf("\n Test for hash o: %#o\n", 42);
 
-    printf ("\nPF Width hex2: %05x \n", 42);
+    printf ("\nPF Width hex2: %05x", 42);
     ft_printf ("\nFT Width hex2: %05x \n", 42);
 
 //    printf ("\nPFWidth hex1: %*x \n", 20, 42);
@@ -105,15 +105,14 @@ int main()
     printf("\nPF Test for hash x3: %#8x", 42);
     ft_printf("\nFT Test for hash x3: %#8x\n",42);
 
+	
     printf("\nPF Test for hash x1: %08x", 42);
     ft_printf("\nFT Test for hash x1: %08x\n",42);
 
-    printf("\nPF Test for hash x2: %-8x\n", 42);
+    printf("\nPF Test for hash x2: %-8x", 42);
     ft_printf("\nFT Test for hash x2: %-8x\n",42);
 
-    ft_printf("FT: @moulitest: %#.x %#.0x\n", 0, 0);
-    printf("PF: @moulitest: %#.x %#.0x\n\n", 0, 0);
-
+	printf("\n\n-------TEST D------\n\n");
     ft_printf("FT: @moulitest: %.x %.0x\n", 0, 0);
     printf("PF: @moulitest: %#.x %#.0x\n", 0, 0);
 

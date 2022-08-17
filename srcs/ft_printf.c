@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:21:35 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/04 16:22:49 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/16 16:26:41 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,37 +42,40 @@ void	set_struc(t_info *info)
 	ft_memset (info->flag, 0, sizeof (info->flag));
 	info->type = '0';
 	info->width = 0;
-	info->precision = 0;
+	info->precision = -6;
 	ft_memset (info->size, 0, sizeof (info->size));
+	info->isneg = 0;
+	info->printchar = 0;
 }
 
 void	size_mod(t_info *info)
 {
 	int		len;
 	char	*temp;
-	int		prefix_len;
 	int		copy_position;
 
-	prefix_len = ft_strlen(info->mod);
+	info->modlen = ft_strlen(info->mod);
 	len = info->width - info->copylen;
-	if (len <= prefix_len)
+	if (len <= info->modlen)
 		return ;
 	temp = ft_strnew(len);
 	ft_memset(temp, ' ', len);
 	if (ft_strchr(info->flag, '-'))
 	{
-		temp[len - prefix_len] = '\0';
+		temp[len - info->modlen] = '\0';
 		info->minus_mod = temp;
 		return ;
 	}
-	if ((info->precision == 0 || !ft_strchr("diouxX", info->type))
+	if ((info->precision == -6 || !ft_strchr("diouxX", info->type))
 		&& ft_strchr(info->flag, '0'))
 		ft_memset(temp, '0', len);
-	copy_position = (len - prefix_len) * (temp[0] != '0');
+	copy_position = (len - info->modlen) * (temp[0] != '0');
 	if (info->mod)
-		ft_strncpy(temp + copy_position, info->mod, prefix_len);
+		ft_strncpy(temp + copy_position, info->mod, info->modlen);
 	ft_strdel(&info->mod);
 	info->mod = temp;
+	info->modlen = ft_strlen(info->mod);
+	info->copylen = ft_strlen(info->copy);
 }
 
 int	check_percentage(char **ptr, t_info *info)
@@ -81,10 +84,26 @@ int	check_percentage(char **ptr, t_info *info)
 	int		select;
 
 	select = 0;
-	set_struc(info);
+//	set_struc(info);
 	initialize_type(type);
 	get_info(ptr, info);
-	dispatch(info, type, select);
+	if ((info->precision == 0 && ft_strchr("dpouxX", info->type) && info->list[0] == '\0') || (info->precision == 0 && ft_strchr("s", info->type)))
+	{
+		info->copy = ft_strnew(1);
+		info->copy[0] = '\0';
+		if (info->precision == 0 && ft_strchr("o", info->type) && info->list[0] == '\0' && ft_strstr(info->flag, "#"))
+		{
+			info->copy = ft_strnew(1);
+			info->copy[0] = '0';
+		}
+	}
+/*	if (info->precision == 0 && ft_strchr("o", info->type) && info->list[0] == '\0' && ft_strstr(info->flag, "#"))
+	{
+		info->copy = ft_strnew(1);
+		info->copy[0] = '0';
+	}*/
+	else
+		dispatch(info, type, select);
 	size_mod(info);
 	print(info);
 	/*%[flags][width][.precision][size]type
@@ -98,6 +117,7 @@ int	ft_printf(char *str, ...)
 	t_info	info;
 
 	/*Initialize printf listuments */
+	info.list = NULL;
 	va_start(info.list, str);
 	ptr = str;
 	set_struc(&info);
@@ -111,9 +131,11 @@ int	ft_printf(char *str, ...)
 		else
 		{
 			write(1, ptr, 1);
+			info.printchar += 1;
 			ptr++;
 		}
+		info.isneg = 0;
 	}
 	va_end(info.list);
-	return (0);
+	return (info.printchar);
 }

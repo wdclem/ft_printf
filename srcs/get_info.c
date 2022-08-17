@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:13:44 by ccariou           #+#    #+#             */
-/*   Updated: 2022/07/22 16:50:47 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/16 10:56:36 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,20 @@ void	print(t_info *info)
 
 //	print_char = 0;
 //	print_char = info->modlen + info->copylen;
+//	printf("info mod = %s\n", info->mod);
+	info->copylen = ft_strlen(info->copy);
+	info->modlen = ft_strlen(info->mod);
+//	if (info->width > info->copylen)
+//		info->printchar = info->width;
+//	else if (info->precision > info
+//	else
+		info->printchar += (info->copylen + info->modlen + (ft_strlen(info->minus_mod)));
 	ft_putstr(info->mod);
 	ft_strdel(&info->mod);
 	ft_putstr(info->copy);
 	ft_strdel(&info->copy);
 	ft_putstr(info->minus_mod);
 	ft_strdel(&info->minus_mod);
-	//return (print_char);
 }
 
 void	get_info(char **ptr, t_info *info)

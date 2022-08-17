@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:03:17 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/04 12:19:22 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/16 10:21:10 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,14 @@ int	type_int(t_info *info)
 
 	i = 0;
 	i = change_size(info, i); /*make it a if */
-	signed_numb(info, i, 10);
+	if (i < -9223372036854775807 || i > 9223372036854775807)
+	{
+		if (i < 0)
+			info->isneg = 1;
+		convert(info,i, 10);
+	}
+	else
+		signed_numb(info, i, 10);
 	mod_init(info);
 //	ft_putstr(convert(info,i, 10));
 	return(0);

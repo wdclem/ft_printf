@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:01:30 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/08 12:29:25 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/12 12:17:58 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static long long	change_size(t_info *info, long long i)
 	else if ((ft_strcmp(info->size, "hh")) == 0)
 		return(i = (char)va_arg(info->list, int));
 	else
-		return (va_arg(info->list, int));
+		return (va_arg(info->list, unsigned int));
 }
 
 int	type_x(t_info *info)
@@ -36,7 +36,7 @@ int	type_x(t_info *info)
 	mod_init(info);
 //	printf("ERROR TRACK copy = %s\n", info->copy);
 //	printf("ERROR TRACK mod = %s\n", info->mod);
-	if (ft_strchr(info->flag, '#'))
+	if (ft_strchr(info->flag, '#') && i != 0)
 		info->mod = ft_strjoin("0x",info->mod);
 	return(0);
 }

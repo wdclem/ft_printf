@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   type_Xcap.c                                        :+:      :+:    :+:   */
+/*   ft_truncate.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/22 16:06:07 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/08 14:09:16 by ccariou          ###   ########.fr       */
+/*   Created: 2022/08/11 13:37:04 by ccariou           #+#    #+#             */
+/*   Updated: 2022/08/11 13:41:42 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-static void	capital(char *str)
+long double	ft_truncate(long double numb)
 {
-	while (*str)
-	{
-		*str = ft_toupper(*str);
-		str++;
-	}
-}
+	long double x;
 
-int	type_Xcap(t_info *info)
-{
-	type_x(info);
-	capital(info->copy);
-	capital(info->mod);
-/*	while(*info->copy != '\0')
-	{
-		*info->copy = ft_toupper(*info->copy);
-		info->copy++;
-	}
-	*/
-	return(0);
+	x = 0;
+	if(x >= 0.0)
+		x = ft_floor(numb);
+	else
+		x = ft_ceil(numb);
+
+	return (x);
 }

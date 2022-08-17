@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   type_Xcap.c                                        :+:      :+:    :+:   */
+/*   ft_ceil.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/22 16:06:07 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/08 14:09:16 by ccariou          ###   ########.fr       */
+/*   Created: 2022/08/11 12:09:02 by ccariou           #+#    #+#             */
+/*   Updated: 2022/08/11 12:10:10 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	capital(char *str)
+long double ft_ceil(long double numb)
 {
-	while (*str)
-	{
-		*str = ft_toupper(*str);
-		str++;
-	}
-}
+	int x;
 
-int	type_Xcap(t_info *info)
-{
-	type_x(info);
-	capital(info->copy);
-	capital(info->mod);
-/*	while(*info->copy != '\0')
+	x = (int)numb;
+	if (numb == (float)x || numb < 0)
 	{
-		*info->copy = ft_toupper(*info->copy);
-		info->copy++;
+		return x;
 	}
-	*/
-	return(0);
+	else
+		return (x + 1);
 }

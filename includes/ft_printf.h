@@ -24,6 +24,7 @@ typedef struct s_info {
 		int		width;
 		int		precision;
 		char	size[3];
+		int		printchar;
 }		t_info;
 
 typedef	int	conv(t_info *info);

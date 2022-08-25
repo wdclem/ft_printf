@@ -31,13 +31,13 @@ typedef	int	conv(t_info *info);
 
 void	print(t_info *info);
 void	dispatch(t_info *info, conv **type, int select);
-void	get_info(char **ptr, t_info *info);
+void	get_info(const char **ptr, t_info *info);
 /* Check for all possible modifiers %[flags][width][.precision][size]type */
-int	check_flag(char **ptr, t_info *info);
-int	check_width(char **ptr, t_info *info);
-int	check_precision(char **ptr, t_info *info);
-int	check_size(char **ptr, t_info *info);
-int	check_conv(char **ptr, t_info *info);
+int	check_flag(const char **ptr, t_info *info);
+int	check_width(const char **ptr, t_info *info);
+int	check_precision(const char **ptr, t_info *info);
+int	check_size(const char **ptr, t_info *info);
+int	check_conv(const char **ptr, t_info *info);
 
 /* converter modifiable base*/
 char	*convert(t_info *info, unsigned long long num, int base);
@@ -54,16 +54,10 @@ int		type_p(t_info *info);
 int		type_o(t_info *info);
 int		type_unsigned(t_info *info);
 int		type_x(t_info *info);
-int		type_Xcap(t_info *info);
+int		type_xcap(t_info *info);
 int		type_f(t_info *info);
 int		type_percent(t_info *info);
 
-int		ft_printf(char *str, ...);
-
-/* helpers to put different types (might be able to remove with convert function) */
-void	ft_putunsigned(unsigned int nb);
-void	ft_putoctal(unsigned int nb);
-void	ft_puthexa(unsigned int nb);
-void	ft_putupperhexa(unsigned int nb);
+int		ft_printf(const char *str, ...);
 
 #endif

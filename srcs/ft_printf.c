@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:21:35 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/16 16:26:41 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/25 13:19:37 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	initialize_type(conv **type)
 	type[5] = &type_o;
 	type[6] = &type_unsigned;
 	type[7] = &type_x;
-	type[8] = &type_Xcap;
+	type[8] = &type_xcap;
 	type[9] = &type_f;
 	type[10] = &type_percent;
 }
@@ -52,7 +52,7 @@ void	size_mod(t_info *info)
 {
 	int		len;
 	char	*temp;
-	int		copy_position;
+	int		position;
 
 	info->modlen = ft_strlen(info->mod);
 	len = info->width - info->copylen;
@@ -66,19 +66,17 @@ void	size_mod(t_info *info)
 		info->minus_mod = temp;
 		return ;
 	}
-	if ((info->precision == -6 || !ft_strchr("diouxX", info->type))
+	if ((info->precision < 0 || !ft_strchr("diouxX", info->type))
 		&& ft_strchr(info->flag, '0'))
 		ft_memset(temp, '0', len);
-	copy_position = (len - info->modlen) * (temp[0] != '0');
+	position = (len - info->modlen) * (temp[0] != '0');
 	if (info->mod)
-		ft_strncpy(temp + copy_position, info->mod, info->modlen);
+		ft_strncpy(temp + position, info->mod, info->modlen);
 	ft_strdel(&info->mod);
 	info->mod = temp;
-	info->modlen = ft_strlen(info->mod);
-	info->copylen = ft_strlen(info->copy);
 }
 
-int	check_percentage(char **ptr, t_info *info)
+int	check_percentage(const char **ptr, t_info *info)
 {
 	conv	*type[11];
 	int		select;
@@ -87,7 +85,7 @@ int	check_percentage(char **ptr, t_info *info)
 //	set_struc(info);
 	initialize_type(type);
 	get_info(ptr, info);
-	if ((info->precision == 0 && ft_strchr("dpouxX", info->type) && info->list[0] == '\0') || (info->precision == 0 && ft_strchr("s", info->type)))
+	if ((info->precision == 0 && ft_strchr("idpouxX", info->type) && info->list[0] == '\0') || (info->precision == 0 && ft_strchr("s", info->type)))
 	{
 		info->copy = ft_strnew(1);
 		info->copy[0] = '\0';
@@ -111,28 +109,36 @@ int	check_percentage(char **ptr, t_info *info)
 	return (0);
 }
 
-int	ft_printf(char *str, ...)
+ void    clean_up(t_info *info)
+ {
+ 	ft_strdel(&info->mod);
+ 	ft_strdel(&info->copy);
+ 	ft_strdel(&info->minus_mod);
+ }
+
+int	ft_printf(const char *str, ...)
 {
-	char	*ptr;
-	t_info	info;
+	//const char	*ptr;
+	t_info		info;
 
 	/*Initialize printf listuments */
 	info.list = NULL;
 	va_start(info.list, str);
-	ptr = str;
+	//ptr = str;
 	set_struc(&info);
-	while (*ptr != '\0')
+	while (*str != '\0')
 	{
-		if (*ptr == '%')
+		if (*str == '%')
 		{
-			check_percentage(&ptr, &info);
-			ptr += 1;
+			check_percentage(&str, &info);
+			str += 1;
+			clean_up(&info);
 		}
 		else
 		{
-			write(1, ptr, 1);
+			write(1, str, 1);
 			info.printchar += 1;
-			ptr++;
+			str++;
 		}
 		info.isneg = 0;
 	}

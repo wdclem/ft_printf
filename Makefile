@@ -21,8 +21,7 @@ INC_DIR = ./includes/
 
 SRCS = ft_printf.c\
 	  checkers.c converter.c get_info.c\
-	  ft_puthexa.c ft_putoctal.c ft_putunsigned.c ft_putupperhexa.c \
-	  type_c.c type_int.c type_o.c type_percent.c type_s.c type_u.c type_x.c type_Xcap.c type_f.c type_p.c \
+	  type_c.c type_int.c type_o.c type_percent.c type_s.c type_u.c type_x.c type_xcap.c type_f.c type_p.c \
 	  \
 
 INC = -I ./includes -I ./libft/includes
@@ -43,12 +42,12 @@ $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
 	 $(CC) $(FLAGS) $(INC) -o $@ -c $<
 
 clean:
-	@ rm -rf $(OBJ_DIR)
-	@ make -s clean -C ./libft
+	@ rm -rf $(OBJ)
+	@ make -C ./libft clean
 
 fclean: clean
 	@ rm -f $(NAME)
-	@ make -s fclean -C ./libft
+	@ make  -C ./libft fclean
 
 re: fclean all
 

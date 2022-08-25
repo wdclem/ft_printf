@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:00:24 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/12 16:21:16 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/24 11:23:27 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	type_str(t_info *info)
 	{
 		info->copy = ft_strnew(6);
 		info->copylen = 6;
-        ft_strcpy(info->copy, "(null)");
+		ft_strcpy(info->copy, "(null)");
 	}
 	if (info->precision > 0 && info->precision < info->copylen)
 	{
 		info->copy[info->precision] = '\0';
 		info->copylen = ft_strlen(info->copy);
 	}
-	return(0);
+	return (0);
 }

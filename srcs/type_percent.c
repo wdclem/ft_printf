@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:04:06 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/08 10:41:05 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/24 11:21:05 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,5 @@ int	type_percent(t_info *info)
 	info->copy = ft_strnew(1);
 	info->copy[0] = '%';
 	info->copylen = 1;
-	return(0);
+	return (0);
 }

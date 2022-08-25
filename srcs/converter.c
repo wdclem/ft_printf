@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:13:53 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/12 14:37:49 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/24 11:43:28 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ void	mod_init(t_info *info)
 		len = 1;
 	info->mod = ft_strnew(len);
 	ft_memset(info->mod, '0', len);
-//	ft_bzero(info->mod, len);
-	if (info->isneg == 1 && (info->type == 'd' || info->type == 'i'))
+	if (info->isneg == 1 && (ft_strchr("idf", info->type)))
 		info->mod[0] = '-';
 	else if (ft_strchr(info->flag, '+') && info->type != 'u')
 		info->mod[0] = '+';
@@ -47,55 +46,42 @@ void	mod_init(t_info *info)
 
 char	*convert(t_info *info, unsigned long long numb, int base)
 {
-	static char str[]="0123456789abcdef";
-	//unsigned long long	num;
+	static char	*str;
 	int			len;
-//	static char buffer[50];
 
-	//ptr = &buffer[50];
-	//ft_bzero(ptr, sizeof(buffer));
-	//if (numb < 0)
-	//	info->isneg = 1;
-//	if (info->isneg && (info->type == 'd' || info->type == 'i'))
-//		numb = (-1 * (numb + 1)) + 1;
-//	else
-//		num = (unsigned long long)numb;
+	str = "0123456789abcdef";
 	len = numb_len(numb, base);
 	info->copylen = len;
 	info->copy = ft_strnew(len);
 	ft_bzero(info->copy, len);
 	if (numb == 0)
-		info->copy[0] = '0'; 
-	while(numb !=0)
+		info->copy[0] = '0';
+	while (numb != 0)
 	{
 		len--;
 		info->copy[len] = str[numb % base];
 		numb /= base;
 	}
-	return(info->copy);
+	return (info->copy);
 }
 
 char	*signed_numb(t_info *info, long long numb, int base)
 {
-	static char str[]="0123456789abcdef";
-	int         len;
+	static char	*str;
+	int			len;
 
-	if (numb < 0)
-	{
-		info->isneg = 1;
-		numb *= -1;
-	}
+	str = "0123456789abcdef";
 	len = numb_len(numb, base);
 	info->copylen = len;
 	info->copy = ft_strnew(len);
 	ft_bzero(info->copy, len);
 	if (numb == 0)
-		info->copy[0] = '0'; 
-	while(numb !=0)
+		info->copy[0] = '0';
+	while (numb != 0)
 	{
 		len--;
 		info->copy[len] = str[numb % base];
 		numb /= base;
 	}
-	return(info->copy);
-}                                       
+	return (info->copy);
+}

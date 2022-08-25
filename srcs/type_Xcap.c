@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   type_Xcap.c                                        :+:      :+:    :+:   */
+/*   typexcap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 16:06:07 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/08 14:09:16 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/24 11:24:20 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,10 @@ static void	capital(char *str)
 	}
 }
 
-int	type_Xcap(t_info *info)
+int	type_xcap(t_info *info)
 {
 	type_x(info);
 	capital(info->copy);
 	capital(info->mod);
-/*	while(*info->copy != '\0')
-	{
-		*info->copy = ft_toupper(*info->copy);
-		info->copy++;
-	}
-	*/
-	return(0);
+	return (0);
 }

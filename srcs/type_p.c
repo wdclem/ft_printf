@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 16:24:35 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/02 17:21:06 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/25 11:22:05 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,8 @@ int	type_p(t_info *info)
 	long long	i;
 
 	i = 0;
-	//if(info->flag == '#')
-	//if(info->flag == '0')
-	//if(info->flag == '-')
-	//if ((ft_strcmp(info->flag, "+")) == 0)
-	//	write(1, "+", 1);
-	//if ((ft_strcmp(info->flag, " ")) == 0)
-	//	write(1, " ", 1);
 	i = va_arg(info->list, unsigned long);
 	make_adress(info);
 	convert(info, i, 16);
-//	mod_init(info);
-	return(0);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 10:42:00 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/17 09:49:13 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/24 11:32:23 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <ctype.h>
 #include "ft_printf.h" // CHECK ME OUT
 
-int	check_flag(char **ptr, t_info *info)
+int	check_flag(const char **ptr, t_info *info)
 {
 	int	i;
 
@@ -30,7 +30,7 @@ int	check_flag(char **ptr, t_info *info)
 	return (i);
 }
 
-int	check_width(char **ptr, t_info *info)
+int	check_width(const char **ptr, t_info *info)
 {
 	int	nb;
 
@@ -42,10 +42,11 @@ int	check_width(char **ptr, t_info *info)
 		if (nb < 0)
 		{
 			nb *= -1;
-			info->width = -1;
+			ft_strcat(info->flag, "-");
 		}
 		info->width = nb;
-		ptr++;
+		++*ptr;
+		//ptr++;
 	}
 	if (**ptr >= '0' && **ptr <= '9')
 	{
@@ -58,27 +59,34 @@ int	check_width(char **ptr, t_info *info)
 	return (1);
 }
 
-int	check_precision(char **ptr, t_info *info)
+int	check_precision(const char **ptr, t_info *info)
 {
 	if (**ptr != '.')
-		return(0);
+		return (0);
 	++*ptr;
 	info->precision = 0;
 	if (isdigit(**ptr))
 	{
-		info->precision = ft_atoi(*ptr) ;
+		info->precision = ft_atoi(*ptr);
 		if (info->precision > 9)
 			*ptr += 2;
 		else
 			++*ptr;
 	}
+	else if (**ptr == '*')
+	{
+		info->precision = va_arg(info->list, int);
+		if (info->precision < 0)
+			info->precision = -1;
+		++*ptr;
+		return (1);
+	}
 	else
-		return(1);
-//	printf("precision = %d\n", info->precision);
+		return (1);
 	return (0);
 }
 
-int	check_size(char **ptr, t_info *info)
+int	check_size(const char **ptr, t_info *info)
 {
 	int	i;
 
@@ -89,12 +97,10 @@ int	check_size(char **ptr, t_info *info)
 		++*ptr;
 		i++;
 	}
-
-//	printf("size = %s\n", info->size);
 	return (i);
 }
 
-int    check_conv(char **ptr, t_info *info)
+int	check_conv(const char **ptr, t_info *info)
 {
 	int	i;
 

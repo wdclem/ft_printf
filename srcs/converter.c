@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:13:53 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/24 11:43:28 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/25 20:40:57 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,26 @@ static int	numb_len(unsigned long long numb, int base)
 	return (len);
 }
 
-void	mod_init(t_info *info)
+int	edge_case(t_info *info, long long numb)
+{
+	if(numb == 0 && info->precision == 0)
+	{
+		if(ft_strchr("o", info->type) && ft_strchr(info->flag, '#'))
+		{
+			info->precision = 1;
+			return(0);
+		}
+		else
+		{
+			info->copy = ft_strnew(1);
+			info->copy[0] = '\0';
+			return (1);
+		}
+	}
+	else
+		return (0);
+}
+/*void	mod_init(t_info *info)
 {
 	int	len;
 
@@ -42,7 +61,7 @@ void	mod_init(t_info *info)
 		info->mod[0] = ' ';
 	else
 		info->mod[len - 1] = '\0';
-}
+}*/
 
 char	*convert(t_info *info, unsigned long long numb, int base)
 {

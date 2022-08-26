@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 16:24:35 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/25 11:22:05 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/26 15:54:23 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ void	make_adress(t_info *info)
 {
 	int	size;
 
-	info->copylen = ft_strlen(info->list + 2);
+	info->copylen = ft_strlen((const char *)info->list + 2);
 	size = info->precision - info->copylen;
 	if (size > 2)
 	{
+		size += 1;
 		info->mod = ft_strnew(size);
 		ft_memset(info->mod, '0', size);
 	}
@@ -34,7 +35,8 @@ int	type_p(t_info *info)
 
 	i = 0;
 	i = va_arg(info->list, unsigned long);
+	if (!edge_case(info, i))
+		convert(info, i, 16);
 	make_adress(info);
-	convert(info, i, 16);
 	return (0);
 }

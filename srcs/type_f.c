@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:53:11 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/25 11:17:24 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/26 17:20:11 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	build_float(t_info *info, long double numb)
 
 static long double	change_size(t_info *info, long double i)
 {
-	if ((ft_strcmp(info->size, "ll")) == 0)
+	if ((ft_strcmp(info->size, "L")) == 0)
 		return (i = va_arg(info->list, long double));
 	else
 		return (va_arg(info->list, double));
@@ -88,6 +88,11 @@ int	type_f(t_info *info)
 	}
 	build_float(info, i);
 	info->copylen = ft_strlen(info->copy);
-	mod_init(info);
+	if (info->isneg == 1)
+		info->mod[0] = '-';
+	else if (ft_strchr(info->flag, '+'))
+		info->mod[0] = '+';
+	else if (ft_strchr(info->flag, ' '))
+		info->mod[0] = ' ';
 	return (0);
 }

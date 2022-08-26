@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:21:35 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/25 13:19:37 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/26 18:27:19 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	set_struc(t_info *info)
 	ft_memset (info->size, 0, sizeof (info->size));
 	info->isneg = 0;
 	info->printchar = 0;
+	info->minuslen = 0;
 }
 
 void	size_mod(t_info *info)
@@ -76,6 +77,13 @@ void	size_mod(t_info *info)
 	info->mod = temp;
 }
 
+/*void	edge_cases(t_info info)
+{
+	unsigned int numb;
+
+	numb = info->list;
+	if (info->type == "o" && 
+*/
 int	check_percentage(const char **ptr, t_info *info)
 {
 	conv	*type[11];
@@ -85,22 +93,22 @@ int	check_percentage(const char **ptr, t_info *info)
 //	set_struc(info);
 	initialize_type(type);
 	get_info(ptr, info);
-	if ((info->precision == 0 && ft_strchr("idpouxX", info->type) && info->list[0] == '\0') || (info->precision == 0 && ft_strchr("s", info->type)))
+	/*if (info->precision == 0 && ft_strchr("idpouxXs", info->type) && ft_strcmp((const char *)info->list, "")) //|| (info->precision == 0 && ft_strchr("s", info->type)))
 	{
 		info->copy = ft_strnew(1);
 		info->copy[0] = '\0';
-		if (info->precision == 0 && ft_strchr("o", info->type) && info->list[0] == '\0' && ft_strstr(info->flag, "#"))
+
+		if (info->precision == 0 && ft_strchr("o", info->type) && ft_strcmp((const char *)info->list, "") && ft_strstr(info->flag, "#"))
 		{
 			info->copy = ft_strnew(1);
 			info->copy[0] = '0';
 		}
 	}
-/*	if (info->precision == 0 && ft_strchr("o", info->type) && info->list[0] == '\0' && ft_strstr(info->flag, "#"))
+	if (info->precision == 0 && ft_strchr("o", info->type) && info->list[0] == '\0' && ft_strstr(info->flag, "#"))
 	{
 		info->copy = ft_strnew(1);
 		info->copy[0] = '0';
 	}*/
-	else
 		dispatch(info, type, select);
 	size_mod(info);
 	print(info);
@@ -122,7 +130,7 @@ int	ft_printf(const char *str, ...)
 	t_info		info;
 
 	/*Initialize printf listuments */
-	info.list = NULL;
+//	info.list = NULL;
 	va_start(info.list, str);
 	//ptr = str;
 	set_struc(&info);

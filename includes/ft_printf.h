@@ -25,6 +25,7 @@ typedef struct s_info {
 		int		precision;
 		char	size[3];
 		int		printchar;
+		int		minuslen;
 }		t_info;
 
 typedef	int	conv(t_info *info);
@@ -42,7 +43,7 @@ int	check_conv(const char **ptr, t_info *info);
 /* converter modifiable base*/
 char	*convert(t_info *info, unsigned long long num, int base);
 char	*signed_numb(t_info *info, long long num, int base);
-void	mod_init(t_info *info);
+int		edge_case(t_info *info, long long numb);
 void	min_width(t_info *info);
 
 /* printers for each type , separated to take in considerations modifiers cspdiouxXf%*/ 

@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:01:30 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/25 11:26:11 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/25 17:48:02 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,23 @@ static unsigned long long	change_size(t_info *info, unsigned long long i)
 int	type_x(t_info *info)
 {
 	unsigned long long	i;
+	int					len;
 
 	i = 0;
 	i = change_size(info, i); /*make it a if */
-	convert(info, i, 16);
-	mod_init(info);
-	if (ft_strchr(info->flag, '#') && i != 0)
+	if (!edge_case(info, i))
+		convert(info, i, 16);
+	len = info->precision - info->copylen;
+	if (len > 0)
+	{
+		info->mod = ft_strnew(len);
+		ft_memset(info->mod, '0', len);
+	}
+	else
+	{
+		info->mod = ft_strnew(2);
+	}
+	if (ft_strchr(info->flag, '#') && i != 0 && info->precision != 0)
 		info->mod = ft_strjoin("0x", info->mod);
 	return (0);
 }

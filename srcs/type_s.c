@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:00:24 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/24 11:23:27 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/28 14:52:29 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ int	type_str(t_info *info)
 {
 	char	*str;
 
+	if (info->precision == 0)
+	{
+		info->copy = ft_strnew(1);
+		ft_strcpy(info->copy, "\0");
+		return (1);
+	}
 	str = va_arg(info->list, char *);
 	info->copylen = ft_strlen(str);
 	if (str)

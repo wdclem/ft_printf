@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:13:53 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/25 20:40:57 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/28 16:50:07 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*convert(t_info *info, unsigned long long numb, int base)
 
 	str = "0123456789abcdef";
 	len = numb_len(numb, base);
-	info->copylen = len;
+	//info->copylen = len;
 	info->copy = ft_strnew(len);
 	ft_bzero(info->copy, len);
 	if (numb == 0)
@@ -81,6 +81,7 @@ char	*convert(t_info *info, unsigned long long numb, int base)
 		info->copy[len] = str[numb % base];
 		numb /= base;
 	}
+	info->copylen = ft_strlen(info->copy);
 	return (info->copy);
 }
 
@@ -91,7 +92,7 @@ char	*signed_numb(t_info *info, long long numb, int base)
 
 	str = "0123456789abcdef";
 	len = numb_len(numb, base);
-	info->copylen = len;
+	//info->copylen = len;
 	info->copy = ft_strnew(len);
 	ft_bzero(info->copy, len);
 	if (numb == 0)
@@ -102,5 +103,6 @@ char	*signed_numb(t_info *info, long long numb, int base)
 		info->copy[len] = str[numb % base];
 		numb /= base;
 	}
+	info->copylen = ft_strlen(info->copy);
 	return (info->copy);
 }

@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:53:11 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/26 17:20:11 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/28 17:36:55 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	fractional_part(t_info *info, long double after_dot)
 	i = info->precision;
 	str = ft_strnew(i + 1);
 	str[0] = '.';
-//	after_dot = round(after_dot, info->precision);
+	//after_dot = round(after_dot, info->precision);
 	while (i > 0)
 	{
 		after_dot *= 10.0;
@@ -81,18 +81,22 @@ int	type_f(t_info *info)
 
 	i = 0;
 	i = change_size(info, i);
-	if (i < 0)
-	{
-		info->isneg = 1;
+if (i < 0.0 || (i == -0.0 &&  1.0 / i != 1 / 0.0 ))
+{
+	info->isneg = 1;
 		i *= -1;
 	}
 	build_float(info, i);
 	info->copylen = ft_strlen(info->copy);
-	if (info->isneg == 1)
-		info->mod[0] = '-';
-	else if (ft_strchr(info->flag, '+'))
-		info->mod[0] = '+';
-	else if (ft_strchr(info->flag, ' '))
-		info->mod[0] = ' ';
+	if(info->isneg || info->flag[0])
+	{
+		info->mod = ft_strnew(1);
+		if (info->isneg == 1)
+			info->mod[0] = '-';
+		else if (ft_strchr(info->flag, '+'))
+			info->mod[0] = '+';
+		else if (ft_strchr(info->flag, ' '))
+			info->mod[0] = ' ';
+	}
 	return (0);
 }

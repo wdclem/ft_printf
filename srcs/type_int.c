@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:03:17 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/25 20:27:12 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/28 10:39:01 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	add_flag(t_info *info)
 	ft_memset(info->mod, '0', len);
 	if (info->isneg == 1)
 	{
-		ft_strnew(len + 1);
+		//ft_strnew(len + 1);
 		ft_memset(info->mod, '0', len + 1);
 		info->mod[0] = '-';
 		info->mod[len] = '\0';
@@ -45,7 +45,7 @@ void	add_flag(t_info *info)
 	}
 	else if (ft_strchr(info->flag, '+'))
 	{
-		ft_strnew(len + 1);
+		//ft_strnew(len + 1);
 		ft_memset(info->mod, '0', len + 1);
 		info->mod[0] = '+';
 		info->mod[len] = '\0';
@@ -53,7 +53,7 @@ void	add_flag(t_info *info)
 	}
 	else if (ft_strchr(info->flag, ' '))
 	{
-		ft_strnew(len + 1);
+		//ft_strnew(len + 1);
 		ft_memset(info->mod, '0', len + 1);
 		info->mod[0] = ' ';
 		info->mod[len] = '\0';

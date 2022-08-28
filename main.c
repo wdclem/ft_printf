@@ -3,7 +3,99 @@
 
 int	main()
 {
+	int ft;
+	int pf;
+
 	printf("\n");
+	printf("Test %.f\n", 1.5);
+	printf("\n");
+	ft_printf("Test %.f\n", 1.5);
+	printf("\n");
+	printf("\n");
+	printf("Test %%#-1.0x: {%#-1.0x}", 0);
+	printf("\n");
+	ft_printf("Test %%#-1.0u: {%#-1.0u}", 0);
+	printf("\n");
+	pf = printf("Test *c zero {%*c}", 0, 0);
+	printf("\n");
+	ft = ft_printf("Test *c zero {%*c}", 0, 0);
+	printf("\n");
+	printf("ft = %d, pf = %d", ft, pf);
+	printf("\n");
+	printf("\n");
+	//undefined behaviour
+	printf("%.5p", 0);
+	printf("\n");
+	ft_printf("%.5p", 0);
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("Test 5p: {%5p}", 0);
+	printf("\n");
+	ft_printf("{%5p}", 0);
+	printf("\n");
+	printf("%#8.2x", 42);
+	printf("\n");
+	//double check the following
+	ft_printf("%#8.2x", 42);
+	printf("\n");
+	printf("\n");
+	printf("Test -15p: {%-15p}", 0);
+	printf("\n");
+	ft_printf("Test -15p: {%-15p}", 0);
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	pf = printf("{%*c}", 0, 0);
+	printf("\n");
+	ft = ft_printf("{%*c}", 0, 0);
+	printf("\n");
+	printf("ft = %d, pf = %d", ft, pf);
+	printf("\n");
+	printf("%4.s", "42");
+	printf("\n");
+	ft_printf("%4.s", "42");
+	printf("\n");
+	pf = printf("{%3c}", 0);
+	printf("\n");
+	ft = ft_printf("{%3c}", 0);
+	printf("\n");
+	printf("ft = %d, pf = %d", ft, pf);
+	printf("\n");
+/*	printf("%9.2p", 1234);
+	printf("\n");
+	ft_printf("%9.2p", 1234);
+	UNDEFINIED */
+	printf("\n");
+	pf = printf("{%*c}", 0, 0);
+	printf("\n");
+	ft = ft_printf("{%*c}", 0, 0);
+	printf("\n");
+	printf("ft = %d, pf = %d", ft, pf);
+	printf("\n");
+	printf("%");
+	printf("\n");
+	ft_printf("%");
+	printf("\n");
+	printf("\n");
+	/*printf("%.s", "Hello");
+	printf("\n");
+	ft_printf("%.s", "Hello");
+	printf("\n");
+	ft_printf("Test %010d\n", -0.0);
+	printf("Test %010d\n", -0.0);
+	ft_printf("Test positive %010f\n", 0.0);
+	ft_printf("Test %010f\n", -0.0);
+	printf("Test %010f\n", -0.0);
+	ft_printf("ft : %f\n", -42.42);
+	printf("ft : %f\n", -42.42);
 	ft_printf("%#.o", 42);
 	printf("\n");
 	printf("%#.o", 42);
@@ -13,10 +105,9 @@ int	main()
 //	printf("\n");
 //			printf("%9.2p", 1234);
 	printf("\n");
-	/*	ft_printf("%");
+		ft_printf("%");
 	printf("\n");
 			printf("%");
-			*/
 	printf("\n");
 		ft_printf("%c", 0);
 	printf("\n");
@@ -26,10 +117,9 @@ int	main()
 	printf("\n");
 			printf("{%3c}", 0);
 	printf("\n");
-	/*	ft_printf("%#c", 0);
+		ft_printf("%#c", 0);
 	printf("\n");
 			printf("%#c", 0);
-			*/
 	printf("\n");
 		ft_printf("%4.s", "42");
 	printf("\n");
@@ -50,7 +140,7 @@ int	main()
 		ft_printf("{%*c}", 0, 0);
 	printf("\n");
 			printf("{%*c}", 0, 0);
-	printf("\n");
+	printf("\n");*/
 	/*
 	ft_printf("@moulitest: %#.o %#.0o\n", 0, 0);
 	ft_printf("%4.15d\n", 42);

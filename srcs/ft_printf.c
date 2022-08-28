@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:21:35 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/26 18:27:19 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/28 17:07:55 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	set_struc(t_info *info)
 	info->precision = -6;
 	ft_memset (info->size, 0, sizeof (info->size));
 	info->isneg = 0;
-	info->printchar = 0;
+	//info->printchar = 0;
 	info->minuslen = 0;
 }
 
@@ -69,8 +69,12 @@ void	size_mod(t_info *info)
 	}
 	if ((info->precision < 0 || !ft_strchr("diouxX", info->type))
 		&& ft_strchr(info->flag, '0'))
-		ft_memset(temp, '0', len);
+			ft_memset(temp, '0', len);
 	position = (len - info->modlen) * (temp[0] != '0');
+	//if (info->type == 'p')
+	//	position = ((len - 1) - info->modlen) * (temp[0] != '0');
+	//else
+		position = (len - info->modlen) * (temp[0] != '0');
 	if (info->mod)
 		ft_strncpy(temp + position, info->mod, info->modlen);
 	ft_strdel(&info->mod);
@@ -134,11 +138,13 @@ int	ft_printf(const char *str, ...)
 	va_start(info.list, str);
 	//ptr = str;
 	set_struc(&info);
+	info.printchar = 0;
 	while (*str != '\0')
 	{
 		if (*str == '%')
 		{
 			check_percentage(&str, &info);
+			set_struc(&info);
 			str += 1;
 			clean_up(&info);
 		}
@@ -148,7 +154,7 @@ int	ft_printf(const char *str, ...)
 			info.printchar += 1;
 			str++;
 		}
-		info.isneg = 0;
+		//info.isneg = 0;
 	}
 	va_end(info.list);
 	return (info.printchar);

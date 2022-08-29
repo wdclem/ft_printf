@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:03:17 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/28 10:39:01 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/29 16:27:17 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ long long	change_size(t_info *info, long long i)
 
 void	add_flag(t_info *info)
 {
-	int	len;
+	int		len;
 
 	len = info->precision - info->copylen + 1;
 	if (len <= 0)

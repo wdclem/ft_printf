@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:53:11 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/28 17:36:55 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/29 12:54:30 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,25 @@
 static long double	round(long double num, int precision)
 {
 	long double	extra;
+	int			i;
+	int			helper;
 
+	i = precision;
 	extra = 0.5;
-	if (precision <= 0)
-		return (num);
-	while (precision--)
+	while (precision-- > 0)
+	{
+		num -= (long)num;
+		num *= 10;
+	}
+	//if (precision <= 0)
+	//	return (num);
+	helper = (int)num;
+	num -= (int)num;
+	while (i-- > 0)
 		extra /= 10;
-	return (num + extra);
+	if (num == 0.5 && (num - num == 0.0) && helper % 2 == 0)
+			extra = 0.0;
+	return (extra);
 }
 
 static void	fractional_part(t_info *info, long double after_dot)
@@ -36,8 +48,6 @@ static void	fractional_part(t_info *info, long double after_dot)
 	}
 	else if (!info->precision)
 		return ;
-//	if (info->precision ==  -6)
-//		info->precision = 6;
 	i = info->precision;
 	str = ft_strnew(i + 1);
 	str[0] = '.';
@@ -60,7 +70,7 @@ void	build_float(t_info *info, long double numb)
 
 	if (info->precision < 0)
 		info->precision = 6;
-	numb = round(numb, info->precision);
+	numb += round(numb, info->precision);
 	before_dot = (long)numb;
 	after_dot = numb - (long double)before_dot;
 	signed_numb(info, before_dot, 10);
@@ -81,9 +91,9 @@ int	type_f(t_info *info)
 
 	i = 0;
 	i = change_size(info, i);
-if (i < 0.0 || (i == -0.0 &&  1.0 / i != 1 / 0.0 ))
-{
-	info->isneg = 1;
+	if (i < 0.0 || (i == -0.0 &&  1.0 / i != 1 / 0.0 ))
+	{
+		info->isneg = 1;
 		i *= -1;
 	}
 	build_float(info, i);

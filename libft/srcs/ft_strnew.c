@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 14:33:15 by ccariou           #+#    #+#             */
-/*   Updated: 2021/11/26 19:35:33 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/29 15:25:31 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,8 @@ char	*ft_strnew(size_t size)
 	char	*new;
 
 	new = (char *)malloc(sizeof(char) * (size + 1));
-	if (new == NULL)
+	if (!new)
 		return (NULL);
-	while (size)
-	{
-		new[size] = '\0';
-		size --;
-	}
-	new[0] = '\0';
+	ft_memset(new, 0, size + 1);
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 16:24:35 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/28 15:31:54 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/29 11:34:16 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	make_adress(t_info *info)
 {
 	int	size;
 
-	//info->copylen = ft_strlen((const char *)info->list + 2);
 	size = info->precision - info->copylen;
 	if (size > 2)
 	{

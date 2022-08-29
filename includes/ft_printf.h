@@ -24,7 +24,7 @@ typedef struct s_info {
 		int		width;
 		int		precision;
 		char	size[3];
-		int		printchar;
+		int		cnull;
 		int		minuslen;
 }		t_info;
 
@@ -60,5 +60,4 @@ int		type_f(t_info *info);
 int		type_percent(t_info *info);
 
 int		ft_printf(const char *str, ...);
-
 #endif

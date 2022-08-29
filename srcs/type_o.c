@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:02:59 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/26 19:18:00 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/29 11:34:07 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,8 @@ int	type_o(t_info *info)
 	i = change_size(info, i); /*make it a if */
 	if (!edge_case(info, i))
 		convert(info, i, 8);
-	//if (i == 0 && info->precision == 0 && ft_strchr(info->flag, '#'))
-	//		info->mod = ft_strjoin("0", info->mod);
-	//else if (info->precision == 0 && ft_strchr(info->flag, '#'))
-	//	info->precision = info->copylen + 1;
-	//if (i == 0 && info->precision == 0)
-	//	info->mod = ft_strnew(1);
 	len = info->precision - info->copylen;
-	if (len > 0)
+	if (len > 0 && info->precision != 0)
 	{
 		info->mod = ft_strnew(len);
 		ft_memset(info->mod, '0', len);
@@ -51,8 +45,11 @@ int	type_o(t_info *info)
 	else
 	{
 		info->mod = ft_strnew(1);
-//		if (
-//			ft_memset(info->mod, '0', 1);
+		if (len == 0 && info->precision != 0 && info->copy[0] != '0')
+		{
+			len = 1;
+			ft_memset(info->mod, '0', len);
+		}
 	}
 	limit = len + info->copylen;
 	if (ft_strchr(info->flag, '#') && limit <= info->precision && info->copy[0] != '0')
@@ -63,15 +60,5 @@ int	type_o(t_info *info)
 		else
 			info->mod = ft_strjoin("0", info->mod);
 	}
-	//if (ft_strchr(info->flag, '#') && (limit < info->precision || limit == -6))
-	/*info->copylen = (ft_strlen(info->copy));
-	info->modlen = (ft_strlen(info->mod));
-	if (ft_strchr(info->flag, '#') && ((info->modlen + info->copylen < info->precision) || info->precision <= 0))
-	{
-		if (ft_strcmp(info->copy, "0") == 0)
-			return (1);
-		else
-			info->mod = ft_strjoin("0", info->mod);
-	}*/
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 10:42:00 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/24 11:32:23 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/29 14:57:26 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	check_width(const char **ptr, t_info *info)
 		}
 		info->width = nb;
 		++*ptr;
-		//ptr++;
 	}
 	if (**ptr >= '0' && **ptr <= '9')
 	{
@@ -65,7 +64,7 @@ int	check_precision(const char **ptr, t_info *info)
 		return (0);
 	++*ptr;
 	info->precision = 0;
-	if (isdigit(**ptr))
+	if (ft_isdigit(**ptr))
 	{
 		info->precision = ft_atoi(*ptr);
 		if (info->precision > 9)

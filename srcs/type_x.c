@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:01:30 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/25 17:48:02 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/29 16:56:16 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,27 @@ int	type_x(t_info *info)
 {
 	unsigned long long	i;
 	int					len;
+	char				*temp;
 
 	i = 0;
-	i = change_size(info, i); /*make it a if */
+	temp = NULL;
+	i = change_size(info, i);
 	if (!edge_case(info, i))
 		convert(info, i, 16);
 	len = info->precision - info->copylen;
 	if (len > 0)
-	{
 		info->mod = ft_strnew(len);
-		ft_memset(info->mod, '0', len);
-	}
 	else
 	{
 		info->mod = ft_strnew(2);
 	}
 	if (ft_strchr(info->flag, '#') && i != 0 && info->precision != 0)
+	{
+		temp = ft_strncpy(temp, info->mod, len);
+		ft_strdel(&(info->mod));
 		info->mod = ft_strjoin("0x", info->mod);
+		info->mod = ft_strjoin(info->mod, temp);
+		ft_strdel(&(temp));
+	}
 	return (0);
 }

@@ -2,7 +2,15 @@
 
 int				main(void)
 {
-  ft_printf("\n");
+  printf("%.03s\n", NULL);
+  ft_printf("%.03s\n", NULL);
+  printf("%.03s\n", "s_hidden");
+  ft_printf("%.03s\n", "s_hidden");
+  printf("%.5p\n", 0);
+  ft_printf("%.5p\n", 0);
+  printf("{%#.5x}\n", 1);
+  ft_printf("{%#.5x}\n", 1);
+  /*
   printf("%.4x\n", 42);
   ft_printf("%.4x\n", 42);
   ft_printf("%c\n", 0);
@@ -36,6 +44,7 @@ int				main(void)
   ft_printf("%s%s\n", "test", "test");
   ft_printf("%s%s%s\n", "test", "test", "test");
   ft_printf("%C\n", 15000);
+  */
   system("leaks oui");
   return (0);
 }

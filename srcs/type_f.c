@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:53:11 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/29 12:54:30 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/30 13:03:32 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ static long double	round(long double num, int precision)
 		num -= (long)num;
 		num *= 10;
 	}
-	//if (precision <= 0)
-	//	return (num);
 	helper = (int)num;
 	num -= (int)num;
 	while (i-- > 0)
@@ -51,7 +49,6 @@ static void	fractional_part(t_info *info, long double after_dot)
 	i = info->precision;
 	str = ft_strnew(i + 1);
 	str[0] = '.';
-	//after_dot = round(after_dot, info->precision);
 	while (i > 0)
 	{
 		after_dot *= 10.0;
@@ -63,7 +60,7 @@ static void	fractional_part(t_info *info, long double after_dot)
 	ft_strdel(&str);
 }
 
-void	build_float(t_info *info, long double numb)
+static void	build_float(t_info *info, long double numb)
 {
 	long		before_dot;
 	long double	after_dot;
@@ -91,14 +88,14 @@ int	type_f(t_info *info)
 
 	i = 0;
 	i = change_size(info, i);
-	if (i < 0.0 || (i == -0.0 &&  1.0 / i != 1 / 0.0 ))
+	if (i < 0.0 || (i == -0.0 && 1.0 / i != 1 / 0.0))
 	{
 		info->isneg = 1;
 		i *= -1;
 	}
 	build_float(info, i);
 	info->copylen = ft_strlen(info->copy);
-	if(info->isneg || info->flag[0])
+	if (info->isneg || info->flag[0])
 	{
 		info->mod = ft_strnew(1);
 		if (info->isneg == 1)

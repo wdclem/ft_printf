@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:13:44 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/29 16:44:24 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/30 12:55:46 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	print(t_info *info)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if (info->type != 'c') 
+	if (info->type != 'c')
 		info->copylen = ft_strlen(info->copy);
 	info->modlen = ft_strlen(info->mod);
 	ft_putstr(info->mod);
@@ -26,6 +26,13 @@ void	print(t_info *info)
 	else
 		ft_putstr(info->copy);
 	ft_putstr(info->minus_mod);
+}
+
+void	clean_up(t_info *info)
+{
+	ft_strdel(&info->mod);
+	ft_strdel(&info->copy);
+	ft_strdel(&info->minus_mod);
 }
 
 void	get_info(const char **ptr, t_info *info)

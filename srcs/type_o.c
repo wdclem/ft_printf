@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:02:59 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/29 11:34:07 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/30 13:03:02 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,8 @@ static unsigned long long	change_size(t_info *info, unsigned long long i)
 		return (va_arg(info->list, unsigned int));
 }
 
-int	type_o(t_info *info)
+static void	more_edge(t_info *info, int len)
 {
-	unsigned long long	i;
-	int					len;
-	int					limit;
-
-	i = 0;
-	i = change_size(info, i); /*make it a if */
-	if (!edge_case(info, i))
-		convert(info, i, 8);
-	len = info->precision - info->copylen;
 	if (len > 0 && info->precision != 0)
 	{
 		info->mod = ft_strnew(len);
@@ -51,8 +42,23 @@ int	type_o(t_info *info)
 			ft_memset(info->mod, '0', len);
 		}
 	}
+}
+
+int	type_o(t_info *info)
+{
+	unsigned long long	i;
+	int					len;
+	int					limit;
+
+	i = 0;
+	i = change_size(info, i);
+	if (!edge_case(info, i))
+		convert(info, i, 8);
+	len = info->precision - info->copylen;
+	more_edge(info, len);
 	limit = len + info->copylen;
-	if (ft_strchr(info->flag, '#') && limit <= info->precision && info->copy[0] != '0')
+	if (ft_strchr(info->flag, '#')
+		&& limit <= info->precision && info->copy[0] != '0')
 	{
 		limit = ft_strlen(info->mod) + info->copylen;
 		if (limit <= info->precision)

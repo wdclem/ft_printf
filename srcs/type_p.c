@@ -6,13 +6,13 @@
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 16:24:35 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/29 11:34:16 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/30 13:03:56 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-void	make_adress(t_info *info)
+static void	make_adress(t_info *info)
 {
 	int	size;
 

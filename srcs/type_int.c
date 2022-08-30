@@ -6,13 +6,13 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:03:17 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/29 16:27:17 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/30 12:38:17 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-long long	change_size(t_info *info, long long i)
+static long long	change_size(t_info *info, long long i)
 {
 	if ((ft_strcmp(info->size, "ll")) == 0)
 		return (i = va_arg(info->list, long long));
@@ -26,18 +26,10 @@ long long	change_size(t_info *info, long long i)
 		return (va_arg(info->list, int));
 }
 
-void	add_flag(t_info *info)
+static void	more_edge(t_info *info, int len)
 {
-	int		len;
-
-	len = info->precision - info->copylen + 1;
-	if (len <= 0)
-		len = 1;
-	info->mod = ft_strnew(len);
-	ft_memset(info->mod, '0', len);
 	if (info->isneg == 1)
 	{
-		//ft_strnew(len + 1);
 		ft_memset(info->mod, '0', len + 1);
 		info->mod[0] = '-';
 		info->mod[len] = '\0';
@@ -45,7 +37,6 @@ void	add_flag(t_info *info)
 	}
 	else if (ft_strchr(info->flag, '+'))
 	{
-		//ft_strnew(len + 1);
 		ft_memset(info->mod, '0', len + 1);
 		info->mod[0] = '+';
 		info->mod[len] = '\0';
@@ -53,19 +44,25 @@ void	add_flag(t_info *info)
 	}
 	else if (ft_strchr(info->flag, ' '))
 	{
-		//ft_strnew(len + 1);
 		ft_memset(info->mod, '0', len + 1);
 		info->mod[0] = ' ';
 		info->mod[len] = '\0';
 		info->minuslen += 1;
 	}
-	/*else
-	{
-		info->mod = ft_strnew(len);
-		ft_memset(info->mod, '0', len);
-	}*/
 	else
 		info->mod[len - 1] = '\0';
+}
+
+static void	add_flag(t_info *info)
+{
+	int	len;
+
+	len = info->precision - info->copylen + 1;
+	if (len <= 0)
+		len = 1;
+	info->mod = ft_strnew(len);
+	ft_memset(info->mod, '0', len);
+	more_edge(info, len);
 }
 
 int	type_int(t_info *info)
@@ -76,7 +73,7 @@ int	type_int(t_info *info)
 	i = change_size(info, i);
 	if (!edge_case(info, i))
 	{
-		if (i < -9223372036854775807 || i > 9223372036854775807) 
+		if (i < -9223372036854775807 || i > 9223372036854775807)
 		{
 			if (i < 0)
 			{

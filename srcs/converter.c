@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:13:53 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/29 11:30:21 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/30 12:17:53 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static int	numb_len(unsigned long long numb, int base)
 
 int	edge_case(t_info *info, long long numb)
 {
-	if(numb == 0 && info->precision == 0)
+	if (numb == 0 && info->precision == 0)
 	{
-		if(ft_strchr("o", info->type) && ft_strchr(info->flag, '#'))
+		if (ft_strchr("o", info->type) && ft_strchr(info->flag, '#'))
 		{
 			info->precision = 1;
-			return(0);
+			return (0);
 		}
 		else
 		{

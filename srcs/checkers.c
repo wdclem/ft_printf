@@ -6,14 +6,11 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 10:42:00 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/29 14:57:26 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/08/30 12:16:53 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
-#include <string.h>
-#include <ctype.h>
-#include "ft_printf.h" // CHECK ME OUT
+#include "ft_printf.h" 
 
 int	check_flag(const char **ptr, t_info *info)
 {
@@ -27,7 +24,7 @@ int	check_flag(const char **ptr, t_info *info)
 		++*ptr;
 		i++;
 	}
-	return (i);
+	return (0);
 }
 
 int	check_width(const char **ptr, t_info *info)
@@ -55,7 +52,7 @@ int	check_width(const char **ptr, t_info *info)
 		else
 			++*ptr;
 	}
-	return (1);
+	return (0);
 }
 
 int	check_precision(const char **ptr, t_info *info)
@@ -78,10 +75,12 @@ int	check_precision(const char **ptr, t_info *info)
 		if (info->precision < 0)
 			info->precision = -1;
 		++*ptr;
-		return (1);
+		return (0);
 	}
 	else
 		return (1);
+	while (ft_isdigit(**ptr))
+		++*ptr;
 	return (0);
 }
 
@@ -96,7 +95,7 @@ int	check_size(const char **ptr, t_info *info)
 		++*ptr;
 		i++;
 	}
-	return (i);
+	return (0);
 }
 
 int	check_conv(const char **ptr, t_info *info)
@@ -107,6 +106,6 @@ int	check_conv(const char **ptr, t_info *info)
 	if (**ptr && ft_strchr("cspdiouxXf%", *ptr[i]))
 		info->type = *ptr[i];
 	else
-		return (0); // return error if no type precise ?
-	return (1);
+		return (1);
+	return (0);
 }

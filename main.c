@@ -2,6 +2,7 @@
 
 int				main(void)
 {
+	printf("%");
   printf("%.03s\n", NULL);
   ft_printf("%.03s\n", NULL);
   printf("%.03s\n", "s_hidden");

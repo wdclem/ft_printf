@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   type_x.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
+/*   By: ccariou <ccariou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:01:30 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/30 13:04:38 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/09/08 12:20:34 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 static unsigned long long	change_size(t_info *info, unsigned long long i)
 {
@@ -35,10 +35,18 @@ static void	hash_flag(t_info *info, int len)
 	temp = NULL;
 	copy = NULL;
 	if (info->mod[0])
+	{
 		temp = ft_strjoin(info->mod, temp);
+		if (temp == NULL)
+			return ;
+	}
 	ft_strdel(&(info->mod));
 	copy = ft_strjoin("0x", copy);
+	if (copy == NULL)
+		return ;
 	info->mod = ft_strjoin(copy, temp);
+	if (info->mod == NULL)
+		return ;
 	ft_strdel(&temp);
 	ft_strdel(&copy);
 }
@@ -56,11 +64,15 @@ int	type_x(t_info *info)
 	if (len > 0)
 	{
 		info->mod = ft_strnew(len);
+		if (info->mod == NULL)
+			return (1);
 		ft_memset(info->mod, '0', len);
 	}
 	else
 	{
 		info->mod = ft_strnew(2);
+		if (info->mod == NULL)
+			return (1);
 	}
 	if (ft_strchr(info->flag, '#') && i != 0 && info->precision != 0)
 		hash_flag(info, len);

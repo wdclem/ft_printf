@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   type_u.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
+/*   By: ccariou <ccariou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:01:07 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/25 20:30:18 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/09/08 10:38:27 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 static unsigned long long	change_size(t_info *info, unsigned long long i)
 {
@@ -39,6 +39,8 @@ int	type_unsigned(t_info *info)
 	if (len <= 0)
 		return (1);
 	info->mod = ft_strnew(len);
+	if (info->mod == NULL)
+		return (1);
 	ft_memset(info->mod, '0', len);
 	info->mod[len - 1] = '\0';
 	return (0);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   converter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
+/*   By: ccariou <ccariou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:13:53 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/30 12:17:53 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/09/08 10:56:31 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	numb_len(unsigned long long numb, int base)
+int	numb_len(unsigned long long numb, int base)
 {
 	int	len;
 
@@ -37,6 +37,8 @@ int	edge_case(t_info *info, long long numb)
 		else
 		{
 			info->copy = ft_strnew(1);
+			if (info->copy == NULL)
+				return (1);
 			info->copy[0] = '\0';
 			return (1);
 		}
@@ -45,7 +47,7 @@ int	edge_case(t_info *info, long long numb)
 		return (0);
 }
 
-char	*convert(t_info *info, unsigned long long numb, int base)
+int	convert(t_info *info, unsigned long long numb, int base)
 {
 	static char	*str;
 	int			len;
@@ -53,6 +55,8 @@ char	*convert(t_info *info, unsigned long long numb, int base)
 	str = "0123456789abcdef";
 	len = numb_len(numb, base);
 	info->copy = ft_strnew(len);
+	if (info->copy == NULL)
+		return (1);
 	ft_bzero(info->copy, len);
 	if (numb == 0)
 		info->copy[0] = '0';
@@ -63,10 +67,10 @@ char	*convert(t_info *info, unsigned long long numb, int base)
 		numb /= base;
 	}
 	info->copylen = ft_strlen(info->copy);
-	return (info->copy);
+	return (0);
 }
 
-char	*signed_numb(t_info *info, long long numb, int base)
+int	signed_numb(t_info *info, long long numb, int base)
 {
 	static char	*str;
 	int			len;
@@ -74,6 +78,8 @@ char	*signed_numb(t_info *info, long long numb, int base)
 	str = "0123456789abcdef";
 	len = numb_len(numb, base);
 	info->copy = ft_strnew(len);
+	if (info->copy == NULL)
+		return (1);
 	ft_bzero(info->copy, len);
 	if (numb == 0)
 		info->copy[0] = '0';
@@ -84,5 +90,5 @@ char	*signed_numb(t_info *info, long long numb, int base)
 		numb /= base;
 	}
 	info->copylen = ft_strlen(info->copy);
-	return (info->copy);
+	return (0);
 }

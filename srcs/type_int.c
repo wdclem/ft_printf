@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   type_int.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
+/*   By: ccariou <ccariou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:03:17 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/30 12:38:17 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/09/08 10:00:54 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 static long long	change_size(t_info *info, long long i)
 {
@@ -33,21 +33,18 @@ static void	more_edge(t_info *info, int len)
 		ft_memset(info->mod, '0', len + 1);
 		info->mod[0] = '-';
 		info->mod[len] = '\0';
-		info->minuslen += 1;
 	}
 	else if (ft_strchr(info->flag, '+'))
 	{
 		ft_memset(info->mod, '0', len + 1);
 		info->mod[0] = '+';
 		info->mod[len] = '\0';
-		info->minuslen += 1;
 	}
 	else if (ft_strchr(info->flag, ' '))
 	{
 		ft_memset(info->mod, '0', len + 1);
 		info->mod[0] = ' ';
 		info->mod[len] = '\0';
-		info->minuslen += 1;
 	}
 	else
 		info->mod[len - 1] = '\0';
@@ -61,6 +58,8 @@ static void	add_flag(t_info *info)
 	if (len <= 0)
 		len = 1;
 	info->mod = ft_strnew(len);
+	if (info->mod == NULL)
+		return ;
 	ft_memset(info->mod, '0', len);
 	more_edge(info, len);
 }
@@ -73,7 +72,7 @@ int	type_int(t_info *info)
 	i = change_size(info, i);
 	if (!edge_case(info, i))
 	{
-		if (i < -9223372036854775807 || i > 9223372036854775807)
+		if (i < -9223372036854775807)
 		{
 			if (i < 0)
 			{

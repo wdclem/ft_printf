@@ -3,25 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   type_s.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
+/*   By: ccariou <ccariou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:00:24 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/30 13:02:44 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/09/08 10:58:42 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 static void	more_edge(t_info *info, char *str)
 {
 	if (str)
 	{
 		info->copy = ft_strnew(info->copylen + 1);
+		if (info->copy == NULL)
+			return ;
 		ft_strcpy(info->copy, str);
 	}
 	else
 	{
 		info->copy = ft_strnew(6);
+		if (info->copy == NULL)
+			return ;
 		info->copylen = 6;
 		ft_strcpy(info->copy, "(null)");
 	}
@@ -39,6 +43,8 @@ int	type_str(t_info *info)
 	if (info->precision == 0)
 	{
 		info->copy = ft_strnew(1);
+		if (info->copy == NULL)
+			return (1);
 		ft_strcpy(info->copy, "\0");
 		return (1);
 	}

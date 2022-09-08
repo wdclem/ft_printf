@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type_p.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: ccariou <ccariou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 16:24:35 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/30 13:03:56 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/09/08 10:37:35 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@ static void	make_adress(t_info *info)
 	{
 		size += 1;
 		info->mod = ft_strnew(size);
+		if (info->mod == NULL)
+			return ;
 		ft_memset(info->mod, '0', size);
 	}
 	else
 		info->mod = ft_strnew(2);
+	if (info->mod == NULL)
+		return ;
 	ft_strncpy(info->mod, "0x", 2);
 }
 

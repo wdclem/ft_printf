@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: ccariou <ccariou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:21:35 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/30 13:07:15 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/09/08 12:21:46 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 * cspdiouxXf% 
 * %[flags][width][.precision][size]type
 */
-static void	initialize_type(conv **type)
+static void	initialize_type(t_conv **type)
 {
 	type[0] = &type_c;
 	type[1] = &type_str;
@@ -31,22 +31,16 @@ static void	initialize_type(conv **type)
 	type[10] = &type_percent;
 }
 
-void	set_struc(t_info *info)
+static int	minus_flag(t_info *info, char *temp, int len)
 {
-	info->copy = NULL;
-	info->mod = NULL;
-	info->minus_mod = NULL;
-	info->isneg = 0;
-	info->copylen = 0;
-	info->modlen = 0;
-	ft_memset (info->flag, 0, sizeof (info->flag));
-	info->type = '0';
-	info->width = 0;
-	info->precision = -6;
-	ft_memset (info->size, 0, sizeof (info->size));
-	info->isneg = 0;
-	info->cnull = 0;
-	info->minuslen = 0;
+	if (ft_strchr(info->flag, '-'))
+	{
+		temp[len - info->modlen] = '\0';
+		info->minus_mod = temp;
+		return (0);
+	}
+	else
+		return (1);
 }
 
 void	size_mod(t_info *info)
@@ -60,13 +54,11 @@ void	size_mod(t_info *info)
 	if (len <= info->modlen)
 		return ;
 	temp = ft_strnew(len);
-	ft_memset(temp, ' ', len);
-	if (ft_strchr(info->flag, '-'))
-	{
-		temp[len - info->modlen] = '\0';
-		info->minus_mod = temp;
+	if (temp == NULL)
 		return ;
-	}
+	ft_memset(temp, ' ', len);
+	if (!minus_flag(info, temp, len))
+		return ;
 	if ((info->precision < 0 || !ft_strchr("diouxX", info->type))
 		&& ft_strchr(info->flag, '0'))
 		ft_memset(temp, '0', len);
@@ -79,7 +71,7 @@ void	size_mod(t_info *info)
 
 int	check_percentage(const char **ptr, t_info *info)
 {
-	conv	*type[11];
+	t_conv	*type[11];
 	int		select;
 
 	select = 0;

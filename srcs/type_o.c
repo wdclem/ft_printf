@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   type_o.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
+/*   By: ccariou <ccariou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:02:59 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/30 13:03:02 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/09/08 10:56:45 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 static unsigned long long	change_size(t_info *info, unsigned long long i)
 {
@@ -30,17 +30,48 @@ static void	more_edge(t_info *info, int len)
 {
 	if (len > 0 && info->precision != 0)
 	{
+		ft_strdel(&info->mod);
 		info->mod = ft_strnew(len);
+		if (info->mod == NULL)
+			return ;
 		ft_memset(info->mod, '0', len);
 	}
 	else
 	{
+		ft_strdel(&info->mod);
 		info->mod = ft_strnew(1);
+		if (info->mod == NULL)
+			return ;
 		if (len == 0 && info->precision != 0 && info->copy[0] != '0')
 		{
+			ft_strdel(&info->mod);
 			len = 1;
+			info->mod = ft_strnew(1);
+			if (info->mod == NULL)
+				return ;
 			ft_memset(info->mod, '0', len);
 		}
+	}
+}
+
+static void	hash_flag(t_info *info, int limit)
+{
+	char				*temp;
+
+	temp = NULL;
+	limit = ft_strlen(info->mod) + info->copylen;
+	if (limit <= info->precision)
+		return ;
+	else
+	{
+		temp = ft_strjoin(info->mod, temp);
+		if (temp == NULL)
+			return ;
+		ft_strdel(&(info->mod));
+		info->mod = ft_strjoin("0", info->mod);
+		if (info->mod == NULL)
+			return ;
+		ft_strdel(&temp);
 	}
 }
 
@@ -59,12 +90,6 @@ int	type_o(t_info *info)
 	limit = len + info->copylen;
 	if (ft_strchr(info->flag, '#')
 		&& limit <= info->precision && info->copy[0] != '0')
-	{
-		limit = ft_strlen(info->mod) + info->copylen;
-		if (limit <= info->precision)
-			return (1);
-		else
-			info->mod = ft_strjoin("0", info->mod);
-	}
+		hash_flag(info, limit);
 	return (0);
 }

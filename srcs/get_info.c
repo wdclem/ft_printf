@@ -3,20 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   get_info.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: ccariou <ccariou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:13:44 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/30 12:55:46 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/09/08 10:46:50 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
+
+void	set_struc(t_info *info)
+{
+	info->copy = NULL;
+	info->mod = NULL;
+	info->minus_mod = NULL;
+	info->isneg = 0;
+	info->copylen = 0;
+	info->modlen = 0;
+	ft_memset (info->flag, 0, sizeof (info->flag));
+	info->type = '0';
+	info->width = 0;
+	info->precision = -6;
+	ft_memset (info->size, 0, sizeof (info->size));
+	info->isneg = 0;
+	info->cnull = 0;
+	info->minuslen = 0;
+}
 
 void	print(t_info *info)
 {
-	int	i;
-
-	i = 0;
 	if (info->type != 'c')
 		info->copylen = ft_strlen(info->copy);
 	info->modlen = ft_strlen(info->mod);
@@ -44,7 +59,7 @@ void	get_info(const char **ptr, t_info *info)
 	check_conv(ptr, info);
 }
 
-void	dispatch(t_info *info, conv **type, int select)
+void	dispatch(t_info *info, t_conv **type, int select)
 {
 	if (info->type == 'c')
 		select = 0;

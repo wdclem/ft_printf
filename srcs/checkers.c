@@ -6,11 +6,11 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 10:42:00 by ccariou           #+#    #+#             */
-/*   Updated: 2022/08/30 12:16:53 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/09/07 14:12:02 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h" 
+#include "../includes/ft_printf.h" 
 
 int	check_flag(const char **ptr, t_info *info)
 {
@@ -27,32 +27,33 @@ int	check_flag(const char **ptr, t_info *info)
 	return (0);
 }
 
-int	check_width(const char **ptr, t_info *info)
+void	check_width(const char **ptr, t_info *info)
 {
-	int	nb;
+	long long	numblen;
 
 	while (ft_isspace(**ptr))
 		ptr++;
 	if (**ptr == '*')
 	{
-		nb = va_arg(info->list, int);
-		if (nb < 0)
+		info->width = va_arg(info->list, int);
+		if (info->width < 0)
 		{
-			nb *= -1;
+			info->width *= -1;
 			ft_strcat(info->flag, "-");
 		}
-		info->width = nb;
 		++*ptr;
 	}
-	if (**ptr >= '0' && **ptr <= '9')
+	if (ft_isdigit(**ptr))
 	{
 		info->width = ft_atoi(*ptr);
-		if (info->width > 9)
-			*ptr += 2;
-		else
+		numblen = 0;
+		numblen = numb_len(numblen, 10);
+		if (info->width <= 9)
 			++*ptr;
+		else
+			while (numblen-- > -1)
+				++*ptr;
 	}
-	return (0);
 }
 
 int	check_precision(const char **ptr, t_info *info)
@@ -64,10 +65,6 @@ int	check_precision(const char **ptr, t_info *info)
 	if (ft_isdigit(**ptr))
 	{
 		info->precision = ft_atoi(*ptr);
-		if (info->precision > 9)
-			*ptr += 2;
-		else
-			++*ptr;
 	}
 	else if (**ptr == '*')
 	{

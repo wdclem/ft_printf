@@ -19,6 +19,8 @@ Compile with any main of your own replace the classice printf with ft_printf.
  
 Nice practice to deal with all the possible combination possible, really challenging on the organisation side.
 
+## References :
+
 Some nice documentation that came across :
 
 https://docs.microsoft.com/en-us/cpp/c-runtime-library/format-specification-syntax-printf-and-wprintf-functions?view=msvc-170#type

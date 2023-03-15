@@ -7,7 +7,7 @@ I choose to reimplement those specifiers :
 
 c,s,p,d,i,u,o,x,X,f with the flags 0,#,'',+,-,hh,ll,l,h,L width and precision are also covered
 
-##Usage :
+## Usage :
 
 ```
 https://github.com/wdclem/ft_printf.git
